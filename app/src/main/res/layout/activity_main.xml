@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_gravity="center"
+    android:gravity="center"
+    android:orientation="vertical"
+    android:background="@color/white"
+    tools:context=".activities.MainActivity">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:fontFamily="@font/addresssanspro_bold"
+        android:text="Выбор языка"
+        android:textColor="#1F2024"
+        android:textSize="24sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="24dp"
+        android:text="Выберите язык приложения"
+        android:textColor="#B3202020" />
+
+    <RadioGroup
+        android:id="@+id/radioGroupLanguages"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <RadioButton
+            android:id="@+id/radioButtonRussian"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/radio_button_background_language_false"
+            android:button="@null"
+            android:layout_marginHorizontal="16dp"
+            android:layout_marginTop="16dp"
+            android:drawableRight="@drawable/ic_radio_unchecked"
+            android:gravity="center_vertical"
+            android:minHeight="48dp"
+            android:padding="12dp"
+            android:text="Русский язык" />
+
+        <RadioButton
+            android:id="@+id/radioButtonKazakh"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/radio_button_background_language_false"
+            android:button="@null"
+            android:layout_marginTop="8dp"
+            android:layout_marginHorizontal="16dp"
+            android:drawableRight="@drawable/ic_radio_unchecked"
+            android:gravity="center_vertical"
+            android:minHeight="48dp"
+            android:layout_marginBottom="16dp"
+            android:padding="12dp"
+            android:text="Қазақ тілі"
+            android:textColor="@color/black" />
+    </RadioGroup>
+
+    <Button
+        android:id="@+id/buttonContinuelanguage"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:background="@drawable/style_btn"
+        android:text="Продолжить"
+        android:layout_marginHorizontal="16dp"
+        android:textStyle="bold"
+        android:textAllCaps="false"
+        android:textColor="#FFFFFF" />
+</LinearLayout>

@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical"
+    tools:context=".activities.MoodActivity">
+
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:overScrollMode="never"
+        android:scrollbars="none">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="20dp"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/bgimgmood"
+                android:orientation="vertical"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <TextView
+                    android:id="@+id/textView9"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="20dp"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:fontFamily="@font/inter_bold"
+                    android:text="Привет! 👋 Как ваш день?"
+                    android:textColor="#1F2024"
+                    android:textSize="20dp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/textView10"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginHorizontal="20dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="20dp"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="Поделитесь своим настроением с нами — выберите настроение и напишите несколько слов о вашем текущем состоянии. Мы заботимся о каждом моменте вашей жизни и хотим быть рядом, даже если это просто виртуально. 😊 #ВместеПоЖизни"
+                    android:textColor="#71727A"
+                    android:textStyle="bold" />
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/textView12"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="20dp"
+                android:layout_marginTop="30dp"
+                android:text="Какое ваше настроение сегодня?"
+                android:textColor="@color/black"
+                android:fontFamily="@font/inter_bold"
+                android:textSize="12dp"
+                android:textStyle="bold" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/moodRecyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="130dp"
+                android:padding="16dp">
+
+            </androidx.recyclerview.widget.RecyclerView>
+
+            <TextView
+                android:id="@+id/textView8"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="20dp"
+                android:text="Что-нибудь еще?"
+                android:textColor="@color/black"
+                android:fontFamily="@font/inter_bold"
+                android:textSize="12dp"
+                android:textStyle="bold" />
+
+
+            <EditText
+                android:id="@+id/editTextComment"
+                android:layout_width="match_parent"
+                android:layout_height="110dp"
+                android:layout_marginHorizontal="20dp"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/edittext_background_selector"
+                android:gravity="start|top"
+                android:hint="Введите ваш комментарий"
+                android:paddingHorizontal="16dp"
+                android:paddingTop="16dp"
+                android:textSize="14dp" />
+
+            <Button
+                android:id="@+id/buttonSaveMood"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="16dp"
+                android:layout_marginTop="24dp"
+                android:background="@drawable/style_btn"
+                android:text="Сохранить"
+                android:textAllCaps="false"
+                android:textColor="#FFFFFF"
+                android:textStyle="bold" />
+
+
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>

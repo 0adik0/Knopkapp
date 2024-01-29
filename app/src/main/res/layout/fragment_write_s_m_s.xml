@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    tools:context=".activities.WriteSMSFragment">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_marginHorizontal="20dp"
+        android:layout_height="match_parent" >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/textView14"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="36dp"
+                android:gravity="center"
+                android:fontFamily="@font/inter_bold"
+                android:textColor="@color/black"
+                android:textSize="20dp"
+                android:text="Введите код подтверждения" />
+
+            <TextView
+                android:id="@+id/textView15"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:layout_marginTop="5dp"
+                android:textColor="#202020"
+                android:text="На номер телефона +7 775 777 77 77 отправлено SMS с кодом подтверждения:" />
+
+            <com.aitsuki.widget.CodeEditText
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:inputType="number"
+                android:background="@drawable/radio_stroke_green"
+                android:maxLength="4"
+                android:layout_gravity="center"
+                android:layout_marginTop="40dp"
+                app:boxStrokeColor="#C5C6CC"
+                app:boxPadding="10dp"
+                app:boxRadius="10dp"
+                app:boxStrokeFocusedColor="@color/green"
+                app:boxStroke="1dp"/>
+
+            <TextView
+                android:id="@+id/textView16"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:layout_marginTop="50dp"
+                android:layout_gravity="bottom"
+                android:textColor="@color/green"
+                android:fontFamily="@font/inter_bold"
+                android:text="Повторная отправка кода" />
+
+            <Button
+                android:id="@+id/regnext"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:background="@drawable/style_btn"
+                android:text="Продолжить"
+                android:layout_marginHorizontal="10dp"
+                android:textAllCaps="false"
+                android:textColor="#FFFFFF"
+                android:textStyle="bold" />
+
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>
