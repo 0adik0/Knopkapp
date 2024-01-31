@@ -1,17 +1,12 @@
 package com.knopkapp.activities
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
-import android.widget.RadioButton
-import android.widget.RadioGroup
-import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.knopkapp.MoodAdapter
+import com.knopkapp.adapters.MoodAdapter
 import com.knopkapp.R
 
 class MoodActivity : ComponentActivity() {

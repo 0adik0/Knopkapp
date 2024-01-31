@@ -1,4 +1,4 @@
-package com.knopkapp
+package com.knopkapp.adapters
 
 import android.content.Context
 import android.view.LayoutInflater
@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.viewpager.widget.PagerAdapter
+import com.knopkapp.R
 
 class ImagePagerAdapter(private val context: Context, private val images: List<Int>) : PagerAdapter() {
 

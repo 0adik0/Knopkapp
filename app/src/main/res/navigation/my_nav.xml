@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/my_nav"
+    app:startDestination="@id/registrationAndVarification1Fragment">
+    <fragment
+        android:id="@+id/registrationAndVarification1Fragment"
+        android:name="com.knopkapp.RegistrationAndVarification1Fragment"
+        android:label="RegistrationAndVarification1Fragment">
+        <action
+            android:id="@+id/action_registrationAndVarification1Fragment_to_writeSMSFragment"
+            app:destination="@id/writeSMSFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/registrationandverification3Fragment"
+        android:name="com.knopkapp.Registrationandverification3Fragment"
+        android:label="Registrationandverification3Fragment">
+        <action
+            android:id="@+id/action_registrationandverification3Fragment_to_registrationandverification4Fragment"
+            app:destination="@id/registrationandverification4Fragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/registrationandverification2Fragment"
+        android:name="com.knopkapp.Registrationandverification2Fragment"
+        android:label="fragment_registrationandverification3"
+        tools:layout="@layout/fragment_registrationandverification3">
+        <action
+            android:id="@+id/action_registrationandverification2Fragment_to_registrationandverification3Fragment"
+            app:destination="@id/registrationandverification3Fragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/registrationandverification4Fragment"
+        android:name="com.knopkapp.Registrationandverification4Fragment"
+        android:label="fragment_registrationandverification4"
+        tools:layout="@layout/fragment_registrationandverification4" />
+    <fragment
+        android:id="@+id/writeSMSFragment"
+        android:name="com.knopkapp.activities.WriteSMSFragment"
+        android:label="WriteSMSFragment">
+        <action
+            android:id="@+id/action_writeSMSFragment_to_registrationandverification2Fragment"
+            app:destination="@id/registrationandverification2Fragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/generationQrCodeFragment"
+        android:name="com.knopkapp.director.GenerationQrCodeFragment"
+        android:label="GenerationQrCodeFragment" />
+    <dialog
+        android:id="@+id/bottomQrCodeGeneration"
+        android:name="com.knopkapp.director.BottomQrCodeGeneration"
+        android:label="fragment_bottom_qr_code_generation"
+        tools:layout="@layout/fragment_bottom_qr_code_generation" />
+</navigation>

@@ -7,7 +7,7 @@
     android:layout_marginHorizontal="20dp"
     android:background="@color/white"
     android:orientation="vertical"
-    tools:context=".Registrationandverification1Fragment">
+    >
 
     <ScrollView
         android:layout_width="match_parent"

@@ -1,10 +1,11 @@
-package com.knopkapp
+package com.knopkapp.adapters
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
+import com.knopkapp.R
 
 class MoodAdapter(private val moods: List<String>, private val onClick: (String) -> Unit) : RecyclerView.Adapter<MoodAdapter.MoodViewHolder>() {
 

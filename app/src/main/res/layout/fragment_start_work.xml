@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:layout_marginHorizontal="20dp"
     android:orientation="vertical"
-    tools:context=".Registrationandverification3Fragment">
+    >
 
     <ScrollView
         android:layout_width="match_parent"
@@ -22,7 +22,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="36dp"
                 android:fontFamily="@font/inter_bold"
-                android:text="Регистрация и верификация"
+                android:text="Начало рабочего дня"
                 android:textColor="@color/black"
                 android:textSize="20dp"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -34,7 +34,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="12dp"
-                android:text="Создайте учетную запись, чтобы начать работу"
+                android:text="Укажите ваше начало рабочего дня"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
@@ -46,30 +46,31 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="30dp"
                 android:fontFamily="@font/inter_bold"
-                android:text="Столы"
+                android:text="Начало рабочего дня"
                 android:textColor="@color/black" />
 
             <EditText
-                android:id="@+id/editTextnamezav2"
+                android:id="@+id/tablesCount"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
                 android:background="@drawable/edittext_background_selector"
                 android:ems="10"
-                android:hint="Введите количество столов"
+                android:hint="Введите начало рабочего дня"
                 android:inputType="text"
                 android:paddingHorizontal="20dp"
+                android:drawableRight="@drawable/ic_date"
                 android:paddingVertical="10dp"
                 android:textColor="@color/black"
                 android:textColorHint="#8F9098" />
 
             <Button
-                android:id="@+id/regpay"
+                android:id="@+id/generationCode"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="24dp"
                 android:background="@drawable/style_btn"
-                android:text="Оплатить"
+                android:text="Сохранить"
                 android:textAllCaps="false"
                 android:textColor="#FFFFFF"
                 android:textStyle="bold" />

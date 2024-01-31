@@ -1,16 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
-    tools:context=".activities.WriteSMSFragment">
+    android:orientation="vertical">
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_marginHorizontal="20dp"
-        android:layout_height="match_parent" >
+        android:layout_height="match_parent"
+        android:layout_marginHorizontal="20dp">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -22,54 +21,116 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="36dp"
-                android:gravity="center"
                 android:fontFamily="@font/inter_bold"
-                android:textColor="@color/black"
-                android:textSize="20dp"
-                android:text="Введите код подтверждения" />
-
-            <TextView
-                android:id="@+id/textView15"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
                 android:gravity="center"
+                android:text="Введите код подтверждения"
+                android:textColor="@color/black"
+                android:textSize="20dp" />
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:layout_gravity="center"
                 android:layout_marginTop="5dp"
-                android:textColor="#202020"
-                android:text="На номер телефона +7 775 777 77 77 отправлено SMS с кодом подтверждения:" />
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/textView15"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:layout_marginStart="15dp"
+                    android:text="На номер телефона"
+                    android:textColor="#202020"
+                    app:layout_constraintEnd_toStartOf="@+id/phoneNumberTextView"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/phoneNumberTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text=" +7 775 777 77 77"
+                    android:textColor="#202020"
+                    android:paddingStart="3dp"
+                    app:layout_constraintStart_toEndOf="@id/textView15"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/textView16"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="отправлено SMS с кодом подтверждения:"
+                    android:textColor="#202020"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
 
             <com.aitsuki.widget.CodeEditText
+                android:id="@+id/codeEditText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:inputType="number"
-                android:background="@drawable/radio_stroke_green"
-                android:maxLength="4"
                 android:layout_gravity="center"
                 android:layout_marginTop="40dp"
-                app:boxStrokeColor="#C5C6CC"
+                android:background="@drawable/radio_stroke_green"
+                android:inputType="number"
+                android:maxLength="6"
                 app:boxPadding="10dp"
                 app:boxRadius="10dp"
-                app:boxStrokeFocusedColor="@color/green"
-                app:boxStroke="1dp"/>
+                app:boxStroke="1dp"
+                app:boxStrokeColor="#C5C6CC"
+                app:boxStrokeFocusedColor="@color/green" />
 
             <TextView
-                android:id="@+id/textView16"
+                android:id="@+id/resendCode"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="center"
-                android:layout_marginTop="50dp"
                 android:layout_gravity="bottom"
-                android:textColor="@color/green"
+                android:layout_marginTop="50dp"
                 android:fontFamily="@font/inter_bold"
-                android:text="Повторная отправка кода" />
+                android:gravity="center"
+                android:text="Повторная отправка кода"
+                android:textColor="@color/green"
+                android:visibility="gone" />
+
+            <LinearLayout
+                android:id="@+id/countLinear"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="50dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/inter_bold"
+                    android:gravity="center"
+                    android:text="Повторная отправка кода через 00:" />
+
+                <TextView
+                    android:id="@+id/counterText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/inter_bold"
+                    android:gravity="center"
+                    android:text="59" />
+
+            </LinearLayout>
+
 
             <Button
                 android:id="@+id/regnext"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginHorizontal="10dp"
                 android:layout_marginTop="24dp"
                 android:background="@drawable/style_btn"
                 android:text="Продолжить"
-                android:layout_marginHorizontal="10dp"
                 android:textAllCaps="false"
                 android:textColor="#FFFFFF"
                 android:textStyle="bold" />

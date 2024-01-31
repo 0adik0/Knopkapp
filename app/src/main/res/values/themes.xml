@@ -9,11 +9,12 @@
         <item name="android:windowLightStatusBar">true</item>
     </style>
 
-
     <style name="Theme.Knopkapp" parent="Base.Theme.Knopkapp" />
     <style name="Base.Knopkapp.statusbar" parent="Theme.AppCompat.Light.NoActionBar" >
 
          <item name="android:statusBarColor">@color/colorbacksplash</item>
 
     </style>
+
+
 </resources>

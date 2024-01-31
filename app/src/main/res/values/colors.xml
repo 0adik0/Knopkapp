@@ -5,4 +5,6 @@
     <color name="colorbacksplash">#0E2B3B</color>
     <color name="green">#61B940</color>
     <color name="greencolorbtn">#64BF40</color>
+    <color name="gray">#ebebeb</color>
+    <color name="darkGray">#99202020</color>
 </resources>

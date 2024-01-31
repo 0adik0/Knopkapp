@@ -59,4 +59,5 @@
         android:textAllCaps="false"
         android:textColor="#FFFFFF"
         android:textStyle="bold" />
+
 </LinearLayout>

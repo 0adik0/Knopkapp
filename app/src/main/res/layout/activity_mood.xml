@@ -76,6 +76,7 @@
                 android:id="@+id/moodRecyclerView"
                 android:layout_width="match_parent"
                 android:layout_height="130dp"
+                tools:listitem="@layout/item_mood"
                 android:padding="16dp">
 
             </androidx.recyclerview.widget.RecyclerView>
