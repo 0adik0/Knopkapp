@@ -2,18 +2,18 @@ package com.knopkapp.activities
 
 import android.content.Intent
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
-import android.text.method.HideReturnsTransformationMethod
-import android.text.method.PasswordTransformationMethod
 import android.view.animation.AnimationUtils
-import android.widget.Button
 import android.widget.EditText
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContextCompat
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
 import com.knopkapp.R
+import com.knopkapp.databinding.ActivityLoginBinding
+import com.knopkapp.models.DirectorDates
+import com.knopkapp.models.OwnerDates
 
 class LoginActivity : AppCompatActivity() {
 
@@ -21,36 +21,75 @@ class LoginActivity : AppCompatActivity() {
     private lateinit var passwordEditText: TextInputEditText
     private lateinit var passwordInputLayout: TextInputLayout
 
+    lateinit var auth: FirebaseAuth
+
+    private lateinit var binding: ActivityLoginBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_login)
-
+        binding = ActivityLoginBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+        // Инициализация Firebase Authentication
+        auth = FirebaseAuth.getInstance()
         emailEditText = findViewById(R.id.editTextTextEmailAddress)
         passwordEditText = findViewById(R.id.editTextPassword)
         passwordInputLayout = findViewById(R.id.textInputPassword)
 
-        findViewById<Button>(R.id.btnlogin).setOnClickListener {
-            validateAndAnimate()
+        binding.btnlogin.setOnClickListener {
+            loginUser()
+
+        }
+    }
+
+    private fun loginUser() {
+        // Получение значений из EditText
+        val email = emailEditText.text.toString()
+        val password = passwordEditText.text.toString()
+
+        OwnerDates.email = emailEditText.text.toString()
+        OwnerDates.password = passwordEditText.text.toString()
+
+        DirectorDates.email = emailEditText.text.toString()
+
+        // Проверка наличия текста в полях email и password
+        if (email.isNotEmpty() && password.isNotEmpty()) {
+            // Попытка входа с использованием email и password
+            auth.signInWithEmailAndPassword(email, password)
+                .addOnCompleteListener(this) { task ->
+                    if (task.isSuccessful) {
+                        // Вход успешен, пользователь существует
+                        val user = auth.currentUser
+                        // Выполните необходимые действия, например, обновление UI
+                        updateUI(user)
+                    } else {
+                        // Если вход не удался, отобразите сообщение об ошибке
+                        Toast.makeText(
+                            baseContext, "Authentication failed.",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                        updateUI(null)
+                    }
+                }
+        } else {
+           validateAndAnimate()
+        }
+    }
+
+    private fun updateUI(user: FirebaseUser?) {
+
+        if (user != null) {
+            startActivity(Intent(this, MoodActivity::class.java))
+            finish()
         }
     }
 
     private fun validateAndAnimate() {
-        var isEmpty = false
 
         if (emailEditText.text.isNullOrEmpty()) {
             emailEditText.startAnimation(AnimationUtils.loadAnimation(this, R.anim.bounce))
-            isEmpty = true
         }
-
         if (passwordEditText.text.isNullOrEmpty()) {
             passwordInputLayout.startAnimation(AnimationUtils.loadAnimation(this, R.anim.bounce))
-            isEmpty = true
         }
 
-        if (!isEmpty) {
-            val intent = Intent(this, MoodActivity::class.java)
-            startActivity(intent)
-            finish()
-        }
     }
 }

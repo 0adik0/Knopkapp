@@ -14,15 +14,15 @@
     </fragment>
     <fragment
         android:id="@+id/registrationandverification3Fragment"
-        android:name="com.knopkapp.Registrationandverification3Fragment"
+        android:name="com.knopkapp.owner.Registrationandverification3Fragment"
         android:label="Registrationandverification3Fragment">
         <action
-            android:id="@+id/action_registrationandverification3Fragment_to_registrationandverification4Fragment"
-            app:destination="@id/registrationandverification4Fragment" />
+            android:id="@+id/action_registrationandverification3Fragment_to_ownerMainMenuFragment"
+            app:destination="@id/ownerMainMenuFragment" />
     </fragment>
     <fragment
         android:id="@+id/registrationandverification2Fragment"
-        android:name="com.knopkapp.Registrationandverification2Fragment"
+        android:name="com.knopkapp.owner.Registrationandverification2Fragment"
         android:label="fragment_registrationandverification3"
         tools:layout="@layout/fragment_registrationandverification3">
         <action
@@ -31,7 +31,7 @@
     </fragment>
     <fragment
         android:id="@+id/registrationandverification4Fragment"
-        android:name="com.knopkapp.Registrationandverification4Fragment"
+        android:name="com.knopkapp.owner.Registrationandverification4Fragment"
         android:label="fragment_registrationandverification4"
         tools:layout="@layout/fragment_registrationandverification4" />
     <fragment
@@ -41,14 +41,78 @@
         <action
             android:id="@+id/action_writeSMSFragment_to_registrationandverification2Fragment"
             app:destination="@id/registrationandverification2Fragment" />
+        <action
+            android:id="@+id/action_writeSMSFragment_to_directorMainScreenFragment"
+            app:destination="@id/directorMainScreenFragment" />
+        <action
+            android:id="@+id/action_writeSMSFragment_to_adminMainMenuFragment"
+            app:destination="@id/adminMainMenuFragment" />
     </fragment>
     <fragment
         android:id="@+id/generationQrCodeFragment"
         android:name="com.knopkapp.director.GenerationQrCodeFragment"
-        android:label="GenerationQrCodeFragment" />
+        android:label="GenerationQrCodeFragment" >
+        <action
+            android:id="@+id/action_generationQrCodeFragment_to_bottomQrCodeGeneration2"
+            app:destination="@id/bottomQrCodeGeneration" />
+    </fragment>
     <dialog
         android:id="@+id/bottomQrCodeGeneration"
         android:name="com.knopkapp.director.BottomQrCodeGeneration"
         android:label="fragment_bottom_qr_code_generation"
         tools:layout="@layout/fragment_bottom_qr_code_generation" />
+    <fragment
+        android:id="@+id/ownerMainMenuFragment"
+        android:name="com.knopkapp.owner.OwnerMainMenuFragment"
+        android:label="fragment_owner_main_menu"
+        tools:layout="@layout/fragment_owner_main_menu" >
+        <action
+            android:id="@+id/action_ownerMainMenuFragment_to_registrationandverification4Fragment"
+            app:destination="@id/registrationandverification4Fragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/directorMainScreenFragment"
+        android:name="com.knopkapp.director.DirectorMainScreenFragment"
+        android:label="DirectorMainScreenFragment" >
+        <action
+            android:id="@+id/action_directorMainScreenFragment_to_generationQrCodeFragment"
+            app:destination="@id/generationQrCodeFragment" />
+        <action
+            android:id="@+id/action_directorMainScreenFragment_to_directorCreateAccountFragment"
+            app:destination="@id/directorCreateAccountFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/directorCreateAccountFragment"
+        android:name="com.knopkapp.director.DirectorCreateAccountFragment"
+        android:label="fragment_director_create_account"
+        tools:layout="@layout/fragment_director_create_account" />
+    <fragment
+        android:id="@+id/adminCreateAccountFragment"
+        android:name="com.knopkapp.admin.AdminCreateAccountFragment"
+        android:label="fragment_admin_create_account"
+        tools:layout="@layout/fragment_admin_create_account" />
+    <fragment
+        android:id="@+id/startWorkFragment"
+        android:name="com.knopkapp.admin.StartWorkFragment"
+        android:label="StartWorkFragment" />
+    <fragment
+        android:id="@+id/divisionOfTablesFragment"
+        android:name="com.knopkapp.admin.DivisionOfTablesFragment"
+        android:label="DivisionOfTablesFragment" >
+        <action
+            android:id="@+id/action_divisionOfTablesFragment_to_startWorkFragment"
+            app:destination="@id/startWorkFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/adminMainMenuFragment"
+        android:name="com.knopkapp.admin.AdminMainMenuFragment"
+        android:label="fragment_admin_main_menu"
+        tools:layout="@layout/fragment_admin_main_menu" >
+        <action
+            android:id="@+id/action_adminMainMenuFragment_to_divisionOfTablesFragment"
+            app:destination="@id/divisionOfTablesFragment" />
+        <action
+            android:id="@+id/action_adminMainMenuFragment_to_adminCreateAccountFragment"
+            app:destination="@id/adminCreateAccountFragment" />
+    </fragment>
 </navigation>

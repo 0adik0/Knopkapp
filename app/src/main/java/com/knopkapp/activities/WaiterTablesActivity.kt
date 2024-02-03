@@ -15,6 +15,7 @@ class WaiterTablesActivity : AppCompatActivity() {
         binding = ActivityWaiterTablesBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+
         /*waiterTablesAdapter = WaiterTablesAdapter() //нужно добивать ArrayList
         binding.tablesRv.adapter = waiterTablesAdapter */
     }

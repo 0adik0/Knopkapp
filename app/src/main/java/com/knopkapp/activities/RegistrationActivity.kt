@@ -19,14 +19,13 @@ class RegistrationActivity : AppCompatActivity() {
         binding = ActivityRegistrationBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-
-
         if (savedInstanceState == null) {
             findNavController(R.id.fragmentContaner).navigate(R.id.registrationAndVarification1Fragment)
         }
 
+
     }
-    fun setFragment(destinationId: Int) {
+    /*fun setFragment(destinationId: Int) {
         findNavController(R.id.fragmentContaner).navigate(destinationId)
         updateProgressBar(destinationId)
     }
@@ -36,9 +35,9 @@ class RegistrationActivity : AppCompatActivity() {
         when (destinationId) {
             R.id.registrationAndVarification1Fragment -> progressBar.progress = 20
             R.id.writeSMSFragment -> progressBar.progress = 40
-            R.id.generationQrCodeFragment -> progressBar.progress = 60
+            R.id.registrationandverification2Fragment -> progressBar.progress = 60
             R.id.registrationandverification3Fragment -> progressBar.progress = 80
             R.id.registrationandverification4Fragment -> progressBar.progress = 100
         }
-    }
+    }*/
 }

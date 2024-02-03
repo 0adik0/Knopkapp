@@ -4,9 +4,24 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_marginHorizontal="20dp"
     android:orientation="vertical"
-    tools:context=".Registrationandverification3Fragment">
+    tools:context=".owner.Registrationandverification3Fragment">
+
+    <androidx.appcompat.widget.Toolbar
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/green">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:layout_gravity="center"
+            android:textColor="@color/white"
+            android:textSize="18sp"
+            android:text="Регистрация"/>
+
+    </androidx.appcompat.widget.Toolbar>
 
     <ScrollView
         android:layout_width="match_parent"
@@ -15,6 +30,8 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginHorizontal="20dp"
+
             android:orientation="vertical">
 
             <TextView
@@ -22,7 +39,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="36dp"
                 android:fontFamily="@font/inter_bold"
-                android:text="Регистрация и верификация"
+                android:text="Верификация и столы заведения"
                 android:textColor="@color/black"
                 android:textSize="20dp"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -34,7 +51,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="12dp"
-                android:text="Создайте учетную запись, чтобы начать работу"
+                android:text="Укажите количество и узнайте ваш тариф"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
@@ -50,7 +67,7 @@
                 android:textColor="@color/black" />
 
             <EditText
-                android:id="@+id/editTextnamezav2"
+                android:id="@+id/amountTableEditText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"

@@ -4,22 +4,21 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".admin.AdminCreateAccountFragment">
 
-    android:background="@color/white"
-    android:orientation="vertical">
 
     <androidx.appcompat.widget.Toolbar
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/green">
 
-
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:gravity="center"
-            android:text="Регистрация"
+            android:text="Создание Аккаунта"
             android:textColor="@color/white"
             android:textSize="18sp" />
 
@@ -36,12 +35,11 @@
             android:orientation="vertical">
 
             <TextView
-                android:id="@+id/textView11"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="36dp"
                 android:fontFamily="@font/inter_bold"
-                android:text="Регистрация и верификация"
+                android:text="Создать аккаунт для официанта"
                 android:textColor="@color/black"
                 android:textSize="20dp"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -50,7 +48,6 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
-                android:id="@+id/textView13"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="12dp"
@@ -60,62 +57,54 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/textView11" />
 
-            <TextView
+            <EditText
+                android:id="@+id/emailEditText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="30dp"
-                android:fontFamily="@font/inter_bold"
-                android:text="ФИО"
-                android:textColor="@color/black" />
-
-            <EditText
-                android:id="@+id/editTextFIO"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
                 android:background="@drawable/edittext_background_selector"
-                android:ems="10"
-                android:hint="Жан"
-                android:inputType="text"
-                android:paddingHorizontal="20dp"
-                android:paddingVertical="10dp"
+                android:hint="Email"
+                android:inputType="textEmailAddress"
+                android:padding="12dp"
                 android:textColor="@color/black"
                 android:textColorHint="#8F9098" />
 
-            <TextView
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/textInputPassword"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
-                android:fontFamily="@font/inter_bold"
-                android:text="Телефон"
-                android:textColor="@color/black" />
+                app:boxBackgroundColor="@android:color/white"
+                app:boxStrokeColor="@color/black"
+                app:hintEnabled="false"
+                app:passwordToggleEnabled="true">
 
-            <EditText
-                android:id="@+id/editTextTel"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
-                android:background="@drawable/edittext_background_selector"
-                android:ems="10"
-                android:hint="+7 (777) 777 77 77"
-                android:inputType="textEmailAddress"
-                android:paddingHorizontal="20dp"
-                android:paddingVertical="10dp"
-                android:textColor="@color/black"
-                android:textColorHint="#8F9098" />
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/passwordEditText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/edittext_background_selector"
+                    android:hint="Пароль"
+                    android:inputType="textPassword"
+                    android:padding="12dp"
+                    android:textColor="@color/black"
+                    android:textColorHint="#8F9098" />
+
+            </com.google.android.material.textfield.TextInputLayout>
 
             <Button
-                android:id="@+id/regnext1"
+                android:id="@+id/createButton"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="24dp"
                 android:background="@drawable/style_btn"
-                android:text="Продолжить"
+                android:text="Создать"
                 android:textAllCaps="false"
                 android:textColor="#FFFFFF"
                 android:textStyle="bold" />
 
         </LinearLayout>
     </ScrollView>
+
 
 </LinearLayout>

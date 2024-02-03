@@ -1,16 +1,11 @@
 package com.knopkapp.activities
 
-import android.animation.ObjectAnimator
-import android.app.Activity
-import android.content.Context
 import android.os.Bundle
 import android.os.CountDownTimer
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.animation.AccelerateDecelerateInterpolator
-import android.widget.ProgressBar
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
@@ -21,11 +16,15 @@ import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
 import com.google.firebase.auth.PhoneAuthCredential
 import com.google.firebase.auth.PhoneAuthOptions
 import com.google.firebase.auth.PhoneAuthProvider
+import com.google.firebase.firestore.DocumentSnapshot
+import com.google.firebase.firestore.FirebaseFirestore
 import com.knopkapp.R
 import com.knopkapp.databinding.FragmentWriteSMSBinding
+import com.knopkapp.models.DirectorDates
+import com.knopkapp.models.OwnerDates
+import com.knopkapp.models.Restaurant
 import es.dmoral.toasty.Toasty
 import java.util.concurrent.TimeUnit
-
 
 private const val TAG = "WriteSMSFragment"
 
@@ -44,24 +43,19 @@ class WriteSMSFragment : Fragment() {
     private var timeLeftInMillis: Long = 59000 // 59 секунд в миллисекундах
 
     private val countDownInterval: Long = 1000 // интервал обновления таймера в миллисекундах
-
-
+    lateinit var firebaseFireStore: FirebaseFirestore
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         binding = FragmentWriteSMSBinding.inflate(layoutInflater)
-
-
         auth = FirebaseAuth.getInstance()
+        firebaseFireStore = FirebaseFirestore.getInstance()
         val receiveInfo = arguments?.getString("phoneNumber")
         binding.phoneNumberTextView.text = receiveInfo.toString()
         sendVerificationCode(receiveInfo.toString())
         countDown()
-
-        updateProgressBar(40)
-
 
         binding.regnext.setOnClickListener {
             val codeNumber = binding.codeEditText.text.toString()
@@ -71,11 +65,17 @@ class WriteSMSFragment : Fragment() {
             } else {
                 if (::storedVerificationId.isInitialized) {
                     // Use storedVerificationId here
-                    val credential = PhoneAuthProvider.getCredential(storedVerificationId, codeNumber)
+                    val credential =
+                        PhoneAuthProvider.getCredential(storedVerificationId, codeNumber)
                     signInWithPhoneAuthCredential(credential)
+
                 } else {
                     // Handle the case where storedVerificationId is not initialized
-                    Toast.makeText(context, "Идентификатор верификации ещё не получен", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(
+                        context,
+                        "Идентификатор верификации ещё не получен",
+                        Toast.LENGTH_SHORT
+                    ).show()
                 }
             }
         }
@@ -86,6 +86,102 @@ class WriteSMSFragment : Fragment() {
         }
 
         return binding.root
+    }
+
+    private fun firestoreAdd() {
+
+        val restaurantList = mutableListOf<String>()
+        /*
+                Toast.makeText(context, "ya tut", Toast.LENGTH_SHORT).show()
+        */
+        val a = firebaseFireStore
+            .collection("Users")
+            .document("Dates")
+            .get()
+            .addOnSuccessListener { documentSnapshot ->
+                if (documentSnapshot.exists()) {
+                    val data = documentSnapshot.data
+
+                    if (data != null) {
+                        val collectionNames = data.keys.toList()
+                        for (document in collectionNames) {
+                            val documentId = document
+                            restaurantList.add(documentId.toString())
+                            Log.d("docId", "Document ID added: $documentId")
+                        }
+                    }
+                    Toast.makeText(context, "list $restaurantList", Toast.LENGTH_SHORT).show()
+                    Log.d("Firestore", "List: $restaurantList")
+
+                    // Итеративно проходим по списку ресторанов
+                    for (restaurantName in restaurantList) {
+                        val docRef = firebaseFireStore
+                            .collection("Users")
+                            .document(restaurantName)
+                            .collection("Dates")
+                            .document("User Date")
+                            .collection("Director")
+                            .document("${DirectorDates.email}")
+
+                        docRef.get()
+                            .addOnSuccessListener { directorDocument ->
+                                if (directorDocument.exists()) {
+                                    val directorRestaurant =
+                                        directorDocument.getString("Restaurant")
+                                    if (directorRestaurant == restaurantName.toString()) {
+                                        // Выполните необходимые действия при совпадении ресторана директора и имени ресторана
+
+                                        val userDate = HashMap<String, Any>()
+                                        userDate["FIO"] = DirectorDates.fio.toString()
+                                        userDate["Phone"] = DirectorDates.phoneNumber.toString()
+
+                                        firebaseFireStore.collection("Users")
+                                            .document("Dates")
+                                            .collection(restaurantName).document("User Date")
+                                            .collection("Director")
+                                            .document("${DirectorDates.email}")
+                                            .set(userDate)
+                                            .addOnSuccessListener {
+                                                Toast.makeText(context, "Added", Toast.LENGTH_SHORT)
+                                                    .show()
+                                            }
+                                            .addOnFailureListener {
+                                                Toast.makeText(
+                                                    context,
+                                                    "Error ${it.message}",
+                                                    Toast.LENGTH_SHORT
+                                                ).show()
+                                            }
+
+                                        Toast.makeText(
+                                            context,
+                                            "Email matches restaurant name: $restaurantName",
+                                            Toast.LENGTH_SHORT
+                                        ).show()
+                                    }
+                                } else {
+                                    Toast.makeText(context, "No Such Document", Toast.LENGTH_SHORT)
+                                        .show()
+                                }
+                            }
+                            .addOnFailureListener { e ->
+                                Toast.makeText(
+                                    context,
+                                    "Error getting document $e",
+                                    Toast.LENGTH_SHORT
+                                )
+                                    .show()
+                            }
+                    }
+                } else {
+                    Log.d("Firestore", "Document does not exist")
+                }
+            }
+            .addOnFailureListener { e ->
+                Toast.makeText(context, "Error getting documents $e", Toast.LENGTH_SHORT).show()
+
+            }
+
     }
 
     fun countDown() {
@@ -186,7 +282,8 @@ class WriteSMSFragment : Fragment() {
 
                     Toasty.success(requireContext(), "Успешно", Toast.LENGTH_SHORT).show()
                     val user = task.result?.user
-                    findNavController().navigate(R.id.generationQrCodeFragment)
+                    firestoreAdd()
+                    findNavController().navigate(R.id.registrationandverification2Fragment)
                 } else {
                     // Sign in failed, display a message and update the UI
                     Log.w(TAG, "signInWithCredential:failure", task.exception)
@@ -201,18 +298,17 @@ class WriteSMSFragment : Fragment() {
             }
     }
 
-    private fun updateProgressBar(progress: Int) {
-        val activity: Activity? = activity
-        if (activity != null) {
-            val progressBar = activity.findViewById<ProgressBar>(R.id.progressBar)
-            val animation =
-                ObjectAnimator.ofInt(progressBar, "progress", progressBar.progress, progress)
-            animation.duration = 1000
-            animation.interpolator = AccelerateDecelerateInterpolator()
-            animation.start()
-        }
-    }
-
+    /*   private fun updateProgressBar(progress: Int) {
+           val activity: Activity? = activity
+           if (activity != null) {
+               val progressBar = activity.findViewById<ProgressBar>(R.id.progressBar)
+               val animation =
+                   ObjectAnimator.ofInt(progressBar, "progress", progressBar.progress, progress)
+               animation.duration = 1000
+               animation.interpolator = AccelerateDecelerateInterpolator()
+               animation.start()
+           }
+       }*/
 
     /*private fun replaceFragment(fragment: Fragment) {
       requireActivity().supportFragmentManager.beginTransaction()

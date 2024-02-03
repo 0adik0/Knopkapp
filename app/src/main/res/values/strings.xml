@@ -1,5 +1,9 @@
 <resources>
     <string name="app_name">Knopkapp</string>
-    <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="main_menu">Главное меню</string>
+    <string name="create_account">Создать аккаунт для директора</string>
+    <string name="create_acc_for_admin">Создать аккаунт для администратора</string>
+    <string name="create_acc_for_waiter">Создать аккаунт для официанта</string>
+    <string name="mainMenuDirector">Главное меня\nДиректора</string>
 </resources>

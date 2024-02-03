@@ -1,17 +1,14 @@
-package com.knopkapp
+package com.knopkapp.owner
 
-import android.animation.ObjectAnimator
-import android.app.Activity
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.animation.AccelerateDecelerateInterpolator
-import android.widget.Button
-import android.widget.ProgressBar
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
+import com.knopkapp.R
 import com.knopkapp.databinding.FragmentRegistrationandverification2Binding
+import com.knopkapp.models.OwnerDates
 
 class Registrationandverification2Fragment : Fragment() {
     private lateinit var binding: FragmentRegistrationandverification2Binding
@@ -21,9 +18,15 @@ class Registrationandverification2Fragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         binding = FragmentRegistrationandverification2Binding.inflate(layoutInflater)
-        updateProgressBar(60)
-        binding.regnext2.setOnClickListener {
 
+
+        binding.regnext2.setOnClickListener {
+            binding.apply {
+                OwnerDates.name = nameEdtiText.text.toString()
+                OwnerDates.bin = binEditText.text.toString().toLong()
+                OwnerDates.address = addressEditText.text.toString()
+                OwnerDates.type = typeEditText.text.toString()
+            }
             findNavController().navigate(R.id.registrationandverification3Fragment)
 
         }
@@ -37,7 +40,7 @@ class Registrationandverification2Fragment : Fragment() {
               .commit()
       }*/
 
-    private fun updateProgressBar(progress: Int) {
+ /*   private fun updateProgressBar(progress: Int) {
         val activity: Activity? = activity
         if (activity != null) {
             val progressBar = activity.findViewById<ProgressBar>(R.id.progressBar)
@@ -47,5 +50,5 @@ class Registrationandverification2Fragment : Fragment() {
             animation.interpolator = AccelerateDecelerateInterpolator()
             animation.start()
         }
-    }
+    }*/
 }

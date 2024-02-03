@@ -28,11 +28,10 @@ class MainActivity : AppCompatActivity() {
                 radioButtonKazakh.startAnimation(bounceAnimation)
 
             } else {
-                val intent = Intent(this, MoodActivity::class.java)
+                val intent = Intent(this, LoginActivity::class.java)
                 startActivity(intent)
             }
         }
-
 
         radioGroupLanguages.setOnCheckedChangeListener { group, checkedId ->
             if (checkedId == R.id.radioButtonRussian) {
