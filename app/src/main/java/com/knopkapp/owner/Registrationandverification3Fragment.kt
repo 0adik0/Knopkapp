@@ -10,11 +10,13 @@ import androidx.navigation.fragment.findNavController
 import com.google.firebase.firestore.FirebaseFirestore
 import com.knopkapp.R
 import com.knopkapp.databinding.FragmentRegistrationandverification3Binding
+import com.knopkapp.db.SessionManager
 import com.knopkapp.models.OwnerDates
 
 class Registrationandverification3Fragment : Fragment() {
 
     private lateinit var binding: FragmentRegistrationandverification3Binding
+    private lateinit var sessionManager: SessionManager
 
     lateinit var firebaseFireStore: FirebaseFirestore
 
@@ -24,6 +26,7 @@ class Registrationandverification3Fragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         binding = FragmentRegistrationandverification3Binding.inflate(layoutInflater)
+        sessionManager = SessionManager(requireContext())
 
         firebaseFireStore = FirebaseFirestore.getInstance()
         binding.regpay.setOnClickListener {
@@ -31,14 +34,17 @@ class Registrationandverification3Fragment : Fragment() {
             OwnerDates.amountTables = binding.amountTableEditText.text.toString().toInt()
             OwnerDates.status = "Owner"
             firestoreAdd()
-            findNavController().navigate(R.id.registrationandverification4Fragment)
+            findNavController().navigate(R.id.ownerMainMenuFragment)
         }
         return binding.root
     }
 
 
     private fun firestoreAdd() {
+     /*   val usersCollection = firebaseFirestore.collection("Users")
 
+// Создаем новый документ с автоматически сгенерированным идентификатором
+        val datesDocument = usersCollection.add().await()*/
         val userDate = HashMap<String, Any>()
         userDate["FIO"] = OwnerDates.fio.toString()
         userDate["Login"] = OwnerDates.email.toString()
@@ -46,6 +52,9 @@ class Registrationandverification3Fragment : Fragment() {
         userDate["Phone"] = OwnerDates.phoneNumber!!.toLong()
         userDate["Status"] = OwnerDates.status.toString()
         userDate["Restaurant"] = OwnerDates.name.toString()
+
+        sessionManager.status = "Owner"
+        sessionManager.restaurantName = OwnerDates.name.toString()
 
         firebaseFireStore.collection("Users").document("Dates")
             .collection("${OwnerDates.name}").document("User Date").collection("Owner")

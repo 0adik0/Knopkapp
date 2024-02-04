@@ -8,30 +8,23 @@ import android.util.Log
 import android.widget.ImageView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.navigation.findNavController
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.messaging.FirebaseMessaging
 import com.knopkapp.R
 import com.knopkapp.customviews.TypeWriter
+import com.knopkapp.db.SessionManager
 
 @SuppressLint("CustomSplashScreen")
 class SplashActivity : AppCompatActivity() {
 
     private lateinit var typeWriter: TypeWriter
+    private lateinit var sessionManager: SessionManager
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_splash)
-
-        FirebaseMessaging.getInstance().token.addOnCompleteListener(OnCompleteListener { task->
-            if (!task.isSuccessful) {
-                Log.d("TAG", "onCreate: token falled")
-                return@OnCompleteListener
-            }
-            val token = task.result
-            Log.d("tokencha", token)
-            Toast.makeText(this, token, Toast.LENGTH_SHORT).show()
-        })
-
+        sessionManager = SessionManager(this)
         typeWriter = findViewById(R.id.typeWriterTextView)
         typeWriter.setCharacterDelay(100)
         typeWriter.animateText("- в одной кнопке")
@@ -46,9 +39,16 @@ class SplashActivity : AppCompatActivity() {
         }, 2000)
 
         Handler().postDelayed({
-            val intent = Intent(this@SplashActivity, MainActivity::class.java)
-            startActivity(intent)
-            finish()
+            if (sessionManager.isRegistered){
+                val intent = Intent(this@SplashActivity, MoodActivity::class.java)
+                startActivity(intent)
+                finish()
+            }else{
+                val intent = Intent(this@SplashActivity, MainActivity::class.java)
+                startActivity(intent)
+                finish()
+            }
+
         }, 4000)
     }
 }

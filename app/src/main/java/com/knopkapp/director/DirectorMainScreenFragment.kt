@@ -19,6 +19,7 @@ class DirectorMainScreenFragment : Fragment() {
         binding = FragmentDirectorMainScreenBinding.inflate(layoutInflater)
 
         binding.createAccountButton.setOnClickListener {
+
             findNavController().navigate(R.id.directorCreateAccountFragment)
 
         }

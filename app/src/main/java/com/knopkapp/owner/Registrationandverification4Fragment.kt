@@ -7,11 +7,13 @@ import android.view.ViewGroup
 import android.view.animation.AnimationUtils
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.FirebaseFirestore
 import com.knopkapp.R
 import com.knopkapp.databinding.FragmentRegistrationandverification4Binding
+import com.knopkapp.db.SessionManager
 import com.knopkapp.models.OwnerDates
 import es.dmoral.toasty.Toasty
 
@@ -19,7 +21,7 @@ class Registrationandverification4Fragment : Fragment() {
 
     private lateinit var auth: FirebaseAuth
     lateinit var firebaseFireStore: FirebaseFirestore
-
+    private lateinit var sessionManager: SessionManager
     private lateinit var binding: FragmentRegistrationandverification4Binding
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -30,10 +32,10 @@ class Registrationandverification4Fragment : Fragment() {
         // Инициализация Firebase Authentication
         auth = FirebaseAuth.getInstance()
         firebaseFireStore = FirebaseFirestore.getInstance()
+        sessionManager = SessionManager(requireContext())
 
         binding.btnlogin2.setOnClickListener {
             registerUser()
-
         }
         return binding.root
 
@@ -45,14 +47,15 @@ class Registrationandverification4Fragment : Fragment() {
         userDate["Login"] = binding.emailEditText.text.toString()
         userDate["Password"] = binding.passwordEditText.text.toString()
         userDate["Status"] = "Director"
-        userDate["Restaurant"] = OwnerDates.name.toString()
+        userDate["Restaurant"] = sessionManager.restaurantName.toString()
 
         firebaseFireStore.collection("Users").document("Dates")
-            .collection("${OwnerDates.name}").document("User Date").collection("Director")
+            .collection("${sessionManager.restaurantName}").document("User Date")
+            .collection("Director")
             .document("${binding.emailEditText.text}")
             .set(userDate)
             .addOnSuccessListener {
-                Toast.makeText(context, "Added", Toast.LENGTH_SHORT).show()
+                Toasty.info(requireContext(), "Успешно добавлено", Toast.LENGTH_SHORT).show()
             }
             .addOnFailureListener {
                 Toast.makeText(context, "Error ${it.message}", Toast.LENGTH_SHORT).show()
@@ -61,7 +64,7 @@ class Registrationandverification4Fragment : Fragment() {
     }
 
     private fun registerUser() {
-
+        binding.progressBar.visibility = View.VISIBLE
         // Получение значений из EditText
         val email = binding.emailEditText.text.toString()
         val password = binding.passwordEditText.text.toString()
@@ -76,6 +79,7 @@ class Registrationandverification4Fragment : Fragment() {
                         val user = auth.currentUser
                         // Выполните необходимые действия, например, обновление UI
                         updateUI(user)
+                        binding.progressBar.visibility = View.GONE
                     } else {
                         // Если регистрация не удалась, отобразите сообщение об ошибке
                         Toast.makeText(
@@ -101,22 +105,24 @@ class Registrationandverification4Fragment : Fragment() {
         if (user != null) {
             firestoreAdd()
             Toast.makeText(context, "Registered", Toast.LENGTH_SHORT).show()
+            findNavController().navigate(R.id.ownerMainMenuFragment)
+
             /*startActivity(Intent(this, MainActivity::class.java))
             finish()*/
         }
     }
 
- /*   private fun updateProgressBar(progress: Int) {
-        val activity: Activity? = activity
-        if (activity != null) {
-            val progressBar = activity.findViewById<ProgressBar>(R.id.progressBar)
-            val animation =
-                ObjectAnimator.ofInt(progressBar, "progress", progressBar.progress, progress)
-            animation.duration = 1000
-            animation.interpolator = AccelerateDecelerateInterpolator()
-            animation.start()
-        }
-    }*/
+    /*   private fun updateProgressBar(progress: Int) {
+           val activity: Activity? = activity
+           if (activity != null) {
+               val progressBar = activity.findViewById<ProgressBar>(R.id.progressBar)
+               val animation =
+                   ObjectAnimator.ofInt(progressBar, "progress", progressBar.progress, progress)
+               animation.duration = 1000
+               animation.interpolator = AccelerateDecelerateInterpolator()
+               animation.start()
+           }
+       }*/
 
     private fun validateAndAnimate() {
         binding.apply {

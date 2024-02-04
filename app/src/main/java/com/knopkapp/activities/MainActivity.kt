@@ -16,7 +16,9 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         val radioGroupLanguages = findViewById<RadioGroup>(R.id.radioGroupLanguages)
+
         val radioButtonRussian = findViewById<RadioButton>(R.id.radioButtonRussian)
+
         val radioButtonKazakh = findViewById<RadioButton>(R.id.radioButtonKazakh)
 
         radioGroupLanguages.clearCheck()

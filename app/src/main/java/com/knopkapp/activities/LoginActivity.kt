@@ -6,13 +6,15 @@ import android.view.animation.AnimationUtils
 import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.navigation.findNavController
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.knopkapp.R
 import com.knopkapp.databinding.ActivityLoginBinding
-import com.knopkapp.models.DirectorDates
+import com.knopkapp.db.SessionManager
+import com.knopkapp.models.UniversalDate
 import com.knopkapp.models.OwnerDates
 
 class LoginActivity : AppCompatActivity() {
@@ -22,7 +24,7 @@ class LoginActivity : AppCompatActivity() {
     private lateinit var passwordInputLayout: TextInputLayout
 
     lateinit var auth: FirebaseAuth
-
+    private lateinit var sessionManager: SessionManager
     private lateinit var binding: ActivityLoginBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -30,6 +32,8 @@ class LoginActivity : AppCompatActivity() {
         setContentView(binding.root)
         // Инициализация Firebase Authentication
         auth = FirebaseAuth.getInstance()
+
+        sessionManager = SessionManager(this)
         emailEditText = findViewById(R.id.editTextTextEmailAddress)
         passwordEditText = findViewById(R.id.editTextPassword)
         passwordInputLayout = findViewById(R.id.textInputPassword)
@@ -48,7 +52,7 @@ class LoginActivity : AppCompatActivity() {
         OwnerDates.email = emailEditText.text.toString()
         OwnerDates.password = passwordEditText.text.toString()
 
-        DirectorDates.email = emailEditText.text.toString()
+        UniversalDate.email = emailEditText.text.toString()
 
         // Проверка наличия текста в полях email и password
         if (email.isNotEmpty() && password.isNotEmpty()) {
@@ -58,6 +62,7 @@ class LoginActivity : AppCompatActivity() {
                     if (task.isSuccessful) {
                         // Вход успешен, пользователь существует
                         val user = auth.currentUser
+                        sessionManager.isRegistered = true
                         // Выполните необходимые действия, например, обновление UI
                         updateUI(user)
                     } else {
@@ -77,7 +82,7 @@ class LoginActivity : AppCompatActivity() {
     private fun updateUI(user: FirebaseUser?) {
 
         if (user != null) {
-            startActivity(Intent(this, MoodActivity::class.java))
+            startActivity(Intent(this,RegistrationActivity::class.java))
             finish()
         }
     }

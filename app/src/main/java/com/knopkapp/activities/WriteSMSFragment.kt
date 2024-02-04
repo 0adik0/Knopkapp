@@ -1,5 +1,6 @@
 package com.knopkapp.activities
 
+import android.content.Intent
 import android.os.Bundle
 import android.os.CountDownTimer
 import android.util.Log
@@ -16,13 +17,12 @@ import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
 import com.google.firebase.auth.PhoneAuthCredential
 import com.google.firebase.auth.PhoneAuthOptions
 import com.google.firebase.auth.PhoneAuthProvider
-import com.google.firebase.firestore.DocumentSnapshot
+import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.FirebaseFirestore
 import com.knopkapp.R
 import com.knopkapp.databinding.FragmentWriteSMSBinding
-import com.knopkapp.models.DirectorDates
-import com.knopkapp.models.OwnerDates
-import com.knopkapp.models.Restaurant
+import com.knopkapp.db.SessionManager
+import com.knopkapp.models.UniversalDate
 import es.dmoral.toasty.Toasty
 import java.util.concurrent.TimeUnit
 
@@ -38,12 +38,17 @@ class WriteSMSFragment : Fragment() {
 
     lateinit var resendToken: PhoneAuthProvider.ForceResendingToken
 
+    private lateinit var sessionManager: SessionManager
+
     private var countDownTimer: CountDownTimer? = null
 
     private var timeLeftInMillis: Long = 59000 // 59 секунд в миллисекундах
 
     private val countDownInterval: Long = 1000 // интервал обновления таймера в миллисекундах
     lateinit var firebaseFireStore: FirebaseFirestore
+
+    private lateinit var directorDocument: DocumentReference
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -51,6 +56,7 @@ class WriteSMSFragment : Fragment() {
     ): View? {
         binding = FragmentWriteSMSBinding.inflate(layoutInflater)
         auth = FirebaseAuth.getInstance()
+        sessionManager = SessionManager(requireContext())
         firebaseFireStore = FirebaseFirestore.getInstance()
         val receiveInfo = arguments?.getString("phoneNumber")
         binding.phoneNumberTextView.text = receiveInfo.toString()
@@ -63,6 +69,8 @@ class WriteSMSFragment : Fragment() {
             if (codeNumber.length < 6) {
                 Toasty.info(requireContext(), "Введите код полностью", Toasty.LENGTH_SHORT).show()
             } else {
+                binding.progBar.visibility = View.VISIBLE
+
                 if (::storedVerificationId.isInitialized) {
                     // Use storedVerificationId here
                     val credential =
@@ -90,97 +98,77 @@ class WriteSMSFragment : Fragment() {
 
     private fun firestoreAdd() {
 
-        val restaurantList = mutableListOf<String>()
-        /*
-                Toast.makeText(context, "ya tut", Toast.LENGTH_SHORT).show()
-        */
-        val a = firebaseFireStore
+        val userDate = HashMap<String, Any>()
+        userDate["FIO"] = UniversalDate.fio.toString()
+        userDate["Phone"] = UniversalDate.phoneNumber.toString()
+
+        directorDocument = firebaseFireStore
             .collection("Users")
             .document("Dates")
-            .get()
-            .addOnSuccessListener { documentSnapshot ->
-                if (documentSnapshot.exists()) {
-                    val data = documentSnapshot.data
+            .collection(UniversalDate.restaurant.toString())
+            .document("User Date")
+            .collection(UniversalDate.status.toString())
+            .document("${UniversalDate.email}")
 
-                    if (data != null) {
-                        val collectionNames = data.keys.toList()
-                        for (document in collectionNames) {
-                            val documentId = document
-                            restaurantList.add(documentId.toString())
-                            Log.d("docId", "Document ID added: $documentId")
-                        }
-                    }
-                    Toast.makeText(context, "list $restaurantList", Toast.LENGTH_SHORT).show()
-                    Log.d("Firestore", "List: $restaurantList")
-
-                    // Итеративно проходим по списку ресторанов
-                    for (restaurantName in restaurantList) {
-                        val docRef = firebaseFireStore
-                            .collection("Users")
-                            .document(restaurantName)
-                            .collection("Dates")
-                            .document("User Date")
-                            .collection("Director")
-                            .document("${DirectorDates.email}")
-
-                        docRef.get()
-                            .addOnSuccessListener { directorDocument ->
-                                if (directorDocument.exists()) {
-                                    val directorRestaurant =
-                                        directorDocument.getString("Restaurant")
-                                    if (directorRestaurant == restaurantName.toString()) {
-                                        // Выполните необходимые действия при совпадении ресторана директора и имени ресторана
-
-                                        val userDate = HashMap<String, Any>()
-                                        userDate["FIO"] = DirectorDates.fio.toString()
-                                        userDate["Phone"] = DirectorDates.phoneNumber.toString()
-
-                                        firebaseFireStore.collection("Users")
-                                            .document("Dates")
-                                            .collection(restaurantName).document("User Date")
-                                            .collection("Director")
-                                            .document("${DirectorDates.email}")
-                                            .set(userDate)
-                                            .addOnSuccessListener {
-                                                Toast.makeText(context, "Added", Toast.LENGTH_SHORT)
-                                                    .show()
-                                            }
-                                            .addOnFailureListener {
-                                                Toast.makeText(
-                                                    context,
-                                                    "Error ${it.message}",
-                                                    Toast.LENGTH_SHORT
-                                                ).show()
-                                            }
-
-                                        Toast.makeText(
-                                            context,
-                                            "Email matches restaurant name: $restaurantName",
-                                            Toast.LENGTH_SHORT
-                                        ).show()
-                                    }
-                                } else {
-                                    Toast.makeText(context, "No Such Document", Toast.LENGTH_SHORT)
-                                        .show()
-                                }
-                            }
-                            .addOnFailureListener { e ->
-                                Toast.makeText(
-                                    context,
-                                    "Error getting document $e",
-                                    Toast.LENGTH_SHORT
-                                )
-                                    .show()
-                            }
-                    }
-                } else {
-                    Log.d("Firestore", "Document does not exist")
+        if (UniversalDate.status == "") {
+            Toast.makeText(context, "status pust", Toast.LENGTH_SHORT).show()
+        }
+        else if (UniversalDate.status == "Director") {
+            directorDocument.update(userDate)
+                .addOnSuccessListener {
+                    Toasty.info(requireContext(), "Успешно добавлено", Toast.LENGTH_SHORT)
+                        .show()
                 }
-            }
-            .addOnFailureListener { e ->
-                Toast.makeText(context, "Error getting documents $e", Toast.LENGTH_SHORT).show()
+                .addOnFailureListener {
+                    Toast.makeText(
+                        context,
+                        "Error ${it.message}",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+            findNavController().navigate(R.id.directorMainScreenFragment)
+            sessionManager.status = UniversalDate.status
+            sessionManager.restaurantName = UniversalDate.restaurant.toString()
 
-            }
+        }
+        else if (UniversalDate.status == "Administrator") {
+            directorDocument.update(userDate)
+                .addOnSuccessListener {
+                    Toasty.info(requireContext(), "Успешно добавлено", Toast.LENGTH_SHORT)
+                        .show()
+                }
+                .addOnFailureListener {
+                    Toast.makeText(
+                        context,
+                        "Error ${it.message}",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+            findNavController().navigate(R.id.adminMainMenuFragment)
+            sessionManager.status = UniversalDate.status
+            sessionManager.restaurantName = UniversalDate.restaurant.toString()
+        }
+        else if (UniversalDate.status == "Waiter") {
+            directorDocument.update(userDate)
+                .addOnSuccessListener {
+                    Toasty.info(requireContext(), "Успешно добавлено", Toast.LENGTH_SHORT)
+                        .show()
+
+                }
+                .addOnFailureListener {
+                    Toast.makeText(
+                        context,
+                        "Error ${it.message}",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+            startActivity(Intent(requireContext(), WaiterTablesActivity::class.java))
+            sessionManager.status = UniversalDate.status
+            sessionManager.restaurantName = UniversalDate.restaurant.toString()
+        }
+        else {
+            findNavController().navigate(R.id.registrationandverification2Fragment)
+        }
 
     }
 
@@ -229,7 +217,6 @@ class WriteSMSFragment : Fragment() {
         PhoneAuthProvider.verifyPhoneNumber(options)
     }
 
-
     private val callbacks = object : PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
 
         override fun onVerificationCompleted(credential: PhoneAuthCredential) {
@@ -277,13 +264,15 @@ class WriteSMSFragment : Fragment() {
         auth.signInWithCredential(credential)
             .addOnCompleteListener(requireActivity()) { task ->
                 if (task.isSuccessful) {
+                    binding.progBar.visibility = View.GONE
+
                     // Sign in success, update UI with the signed-in user's information
                     Log.d(TAG, "signInWithCredential:success")
 
                     Toasty.success(requireContext(), "Успешно", Toast.LENGTH_SHORT).show()
                     val user = task.result?.user
                     firestoreAdd()
-                    findNavController().navigate(R.id.registrationandverification2Fragment)
+
                 } else {
                     // Sign in failed, display a message and update the UI
                     Log.w(TAG, "signInWithCredential:failure", task.exception)
@@ -315,6 +304,8 @@ class WriteSMSFragment : Fragment() {
           .replace(R.id.fragmentContainer, fragment)
           .addToBackStack(null)
           .commit()
-  }
-*/
+    }
+    */
 }
+
+

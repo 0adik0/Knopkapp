@@ -12,7 +12,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
         android:layout_marginTop="20dp"
-        android:text="Генерация QR-code"
+        android:text="Генерация QR-кода"
         android:textSize="18sp"
         android:textStyle="bold"
         android:textColor="@color/black"

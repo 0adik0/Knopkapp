@@ -23,8 +23,8 @@
     <fragment
         android:id="@+id/registrationandverification2Fragment"
         android:name="com.knopkapp.owner.Registrationandverification2Fragment"
-        android:label="fragment_registrationandverification3"
-        tools:layout="@layout/fragment_registrationandverification3">
+        android:label="fragment_registrationandverification2"
+        tools:layout="@layout/fragment_registrationandverification2">
         <action
             android:id="@+id/action_registrationandverification2Fragment_to_registrationandverification3Fragment"
             app:destination="@id/registrationandverification3Fragment" />

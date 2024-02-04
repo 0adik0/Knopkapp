@@ -1,29 +1,48 @@
 package com.knopkapp.activities
 
+import android.content.Intent
 import android.os.Bundle
-import android.widget.ProgressBar
 import androidx.appcompat.app.AppCompatActivity
-import androidx.navigation.NavController
-import androidx.navigation.findNavController
-import androidx.navigation.fragment.findNavController
 
+import androidx.navigation.findNavController
 import com.knopkapp.R
 import com.knopkapp.databinding.ActivityRegistrationBinding
+import com.knopkapp.db.SessionManager
 
 class RegistrationActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityRegistrationBinding
 
+    private lateinit var sessionManager: SessionManager
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityRegistrationBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        sessionManager = SessionManager(this)
 
-        if (savedInstanceState == null) {
-            findNavController(R.id.fragmentContaner).navigate(R.id.registrationAndVarification1Fragment)
+    }
+
+    override fun onResume() {
+        super.onResume()
+        if (sessionManager.isRegistered){
+            when (sessionManager.status) {
+                "Owner" -> {
+                    findNavController(R.id.fragmentContaner).navigate(R.id.ownerMainMenuFragment)
+                }
+                "Director" -> {
+                    findNavController(R.id.fragmentContaner).navigate(R.id.directorMainScreenFragment)
+                }
+                "Administrator" -> {
+                    findNavController(R.id.fragmentContaner).navigate(R.id.adminMainMenuFragment)
+                }
+                "Waiter" -> {
+                    val intent = Intent(this, WaiterTablesActivity::class.java)
+                    startActivity(intent)
+                    finish()
+                }
+            }
         }
-
-
     }
     /*fun setFragment(destinationId: Int) {
         findNavController(R.id.fragmentContaner).navigate(destinationId)

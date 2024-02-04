@@ -18,7 +18,9 @@ class DivisionOfTablesFragment : Fragment() {
     ): View? {
         binding = FragmentDivisionOfTablesBinding.inflate(layoutInflater)
 
+        binding.regnext2.setOnClickListener {
 
+        }
 
         return binding.root
     }

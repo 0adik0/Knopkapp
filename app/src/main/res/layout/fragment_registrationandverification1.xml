@@ -4,7 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-
     android:background="@color/white"
     android:orientation="vertical">
 
@@ -12,7 +11,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/green">
-
 
         <TextView
             android:layout_width="wrap_content"
@@ -76,6 +74,28 @@
                 android:background="@drawable/edittext_background_selector"
                 android:ems="10"
                 android:hint="Жан"
+                android:inputType="text"
+                android:paddingHorizontal="20dp"
+                android:paddingVertical="10dp"
+                android:textColor="@color/black"
+                android:textColorHint="#8F9098" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:fontFamily="@font/inter_bold"
+                android:text="Название заведения"
+                android:textColor="@color/black" />
+
+            <EditText
+                android:id="@+id/nameOfRestaurant"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:background="@drawable/edittext_background_selector"
+                android:ems="10"
+                android:hint="Введите название заведения"
                 android:inputType="text"
                 android:paddingHorizontal="20dp"
                 android:paddingVertical="10dp"
