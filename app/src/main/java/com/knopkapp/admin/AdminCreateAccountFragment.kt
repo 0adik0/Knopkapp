@@ -1,23 +1,25 @@
 package com.knopkapp.admin
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.animation.AnimationUtils
 import android.widget.Toast
+import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.FirebaseFirestore
 import com.knopkapp.R
 import com.knopkapp.databinding.FragmentAdminCreateAccountBinding
-import com.knopkapp.databinding.FragmentAdminMainMenuBinding
 import com.knopkapp.db.SessionManager
 import es.dmoral.toasty.Toasty
 
 class AdminCreateAccountFragment : Fragment() {
+
+
+
 
     private lateinit var binding: FragmentAdminCreateAccountBinding
     private lateinit var auth: FirebaseAuth
@@ -35,6 +37,7 @@ class AdminCreateAccountFragment : Fragment() {
         firebaseFireStore = FirebaseFirestore.getInstance()
 
         sessionManager = SessionManager(requireContext())
+
 
         binding.createButton.setOnClickListener {
             registerUser()
@@ -113,6 +116,8 @@ class AdminCreateAccountFragment : Fragment() {
             finish()*/
         }
     }
+    // Функция для установки слушателя нажатия кнопки "назад"
+
 
     private fun validateAndAnimate() {
         binding.apply {

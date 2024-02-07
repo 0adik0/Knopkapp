@@ -69,9 +69,9 @@ class WriteSMSFragment : Fragment() {
             if (codeNumber.length < 6) {
                 Toasty.info(requireContext(), "Введите код полностью", Toasty.LENGTH_SHORT).show()
             } else {
-                binding.progBar.visibility = View.VISIBLE
 
                 if (::storedVerificationId.isInitialized) {
+                    binding.progBar.visibility = View.VISIBLE
                     // Use storedVerificationId here
                     val credential =
                         PhoneAuthProvider.getCredential(storedVerificationId, codeNumber)

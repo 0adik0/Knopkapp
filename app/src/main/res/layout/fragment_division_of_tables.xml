@@ -4,8 +4,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_marginHorizontal="20dp"
     android:orientation="vertical">
+
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
 
     <ScrollView
         android:layout_width="match_parent"
@@ -14,6 +19,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginHorizontal="20dp"
             android:orientation="vertical">
 
             <TextView
@@ -47,10 +53,11 @@
                 android:text="Столы"
                 android:textColor="@color/black" />
 
-            <EditText
-                android:id="@+id/editTextnamezav"
+
+            <Spinner
+                android:id="@+id/tableCountSpinner"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="46dp"
                 android:layout_marginTop="5dp"
                 android:background="@drawable/edittext_background_selector"
                 android:ems="10"
@@ -69,15 +76,13 @@
                 android:text="Официанты"
                 android:textColor="@color/black" />
 
-            <EditText
-                android:id="@+id/editTextEmail"
+            <Spinner
+                android:id="@+id/waitersSpinner"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="46dp"
                 android:layout_marginTop="5dp"
                 android:background="@drawable/edittext_background_selector"
                 android:ems="10"
-                android:hint="Выберите из списка официантов"
-                android:inputType="number"
                 android:paddingHorizontal="20dp"
                 android:paddingVertical="10dp"
                 android:textColor="@color/black"
@@ -96,4 +101,21 @@
 
         </LinearLayout>
     </ScrollView>
+
+        <View
+            android:id="@+id/darkLayer"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#80000000"
+            android:visibility="gone" />
+
+        <ProgressBar
+            android:id="@+id/progressBar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:visibility="gone" />
+
+    </FrameLayout>
+
 </LinearLayout>

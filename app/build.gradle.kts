@@ -70,4 +70,8 @@ dependencies {
     //firebase
     implementation("com.google.firebase:firebase-firestore:24.10.1")
     implementation("com.google.firebase:firebase-messaging:23.4.0")
+
+    //qr code
+    implementation ("com.journeyapps:zxing-android-embedded:4.1.0")
+
 }

@@ -10,7 +10,9 @@
         android:label="RegistrationAndVarification1Fragment">
         <action
             android:id="@+id/action_registrationAndVarification1Fragment_to_writeSMSFragment"
-            app:destination="@id/writeSMSFragment" />
+            app:destination="@id/writeSMSFragment"
+            app:popUpToInclusive="true"
+            app:popUpTo="@id/registrationAndVarification1Fragment"/>
     </fragment>
     <fragment
         android:id="@+id/registrationandverification3Fragment"
@@ -40,13 +42,19 @@
         android:label="WriteSMSFragment">
         <action
             android:id="@+id/action_writeSMSFragment_to_registrationandverification2Fragment"
-            app:destination="@id/registrationandverification2Fragment" />
+            app:destination="@id/registrationandverification2Fragment"
+            app:popUpToInclusive="true"
+            app:popUpTo="@id/writeSMSFragment"/>
         <action
             android:id="@+id/action_writeSMSFragment_to_directorMainScreenFragment"
-            app:destination="@id/directorMainScreenFragment" />
+            app:destination="@id/directorMainScreenFragment"
+            app:popUpToInclusive="true"
+            app:popUpTo="@id/writeSMSFragment"/>
         <action
             android:id="@+id/action_writeSMSFragment_to_adminMainMenuFragment"
-            app:destination="@id/adminMainMenuFragment" />
+            app:destination="@id/adminMainMenuFragment"
+            app:popUpToInclusive="true"
+            app:popUpTo="@id/writeSMSFragment"/>
     </fragment>
     <fragment
         android:id="@+id/generationQrCodeFragment"
@@ -115,4 +123,6 @@
             android:id="@+id/action_adminMainMenuFragment_to_adminCreateAccountFragment"
             app:destination="@id/adminCreateAccountFragment" />
     </fragment>
+
+
 </navigation>
