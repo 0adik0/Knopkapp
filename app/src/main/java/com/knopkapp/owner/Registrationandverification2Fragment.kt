@@ -28,6 +28,7 @@ class Registrationandverification2Fragment : Fragment() {
             binding.apply {
                 OwnerDates.bin = binEditText.text.toString().toLong()
                 OwnerDates.address = addressEditText.text.toString()
+                OwnerDates.name = binding.nameOfRestaurant.text.toString()
             }
             findNavController().navigate(R.id.registrationandverification3Fragment)
 
@@ -54,7 +55,6 @@ class Registrationandverification2Fragment : Fragment() {
                 // Обработайте выбор элемента
                 val selectedCategory = categories[position]
                 OwnerDates.type = selectedCategory
-                Toast.makeText(context, selectedCategory, Toast.LENGTH_SHORT).show()
             }
 
             override fun onNothingSelected(parentView: AdapterView<*>?) {

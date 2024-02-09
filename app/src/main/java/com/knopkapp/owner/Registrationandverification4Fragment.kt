@@ -44,6 +44,7 @@ class Registrationandverification4Fragment : Fragment() {
     private fun firestoreAdd() {
 
         val userDate = HashMap<String, Any>()
+
         userDate["Login"] = binding.emailEditText.text.toString()
         userDate["Password"] = binding.passwordEditText.text.toString()
         userDate["Status"] = "Director"
@@ -58,10 +59,24 @@ class Registrationandverification4Fragment : Fragment() {
                 Toasty.info(requireContext(), "Успешно добавлено", Toast.LENGTH_SHORT).show()
             }
             .addOnFailureListener {
+            }
+
+
+        val user = HashMap<String, Any>()
+        user["Restaurant"] = sessionManager.restaurantName.toString()
+        firebaseFireStore.collection("AllUsers").document("${binding.emailEditText.text}")
+            .set(user)
+            .addOnSuccessListener {
+
+
+            }
+            .addOnFailureListener {
                 Toast.makeText(context, "Error ${it.message}", Toast.LENGTH_SHORT).show()
+
             }
 
     }
+
 
     private fun registerUser() {
         binding.progressBar.visibility = View.VISIBLE
@@ -104,7 +119,7 @@ class Registrationandverification4Fragment : Fragment() {
         // Пример: если пользователь успешно зарегистрирован, перейдите к главному экрану
         if (user != null) {
             firestoreAdd()
-            Toast.makeText(context, "Registered", Toast.LENGTH_SHORT).show()
+
             findNavController().navigate(R.id.ownerMainMenuFragment)
 
             /*startActivity(Intent(this, MainActivity::class.java))

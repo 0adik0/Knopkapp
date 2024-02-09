@@ -85,28 +85,6 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
                 android:fontFamily="@font/inter_bold"
-                android:text="Название заведения"
-                android:textColor="@color/black" />
-
-            <EditText
-                android:id="@+id/nameOfRestaurant"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
-                android:background="@drawable/edittext_background_selector"
-                android:ems="10"
-                android:hint="Введите название заведения"
-                android:inputType="text"
-                android:paddingHorizontal="20dp"
-                android:paddingVertical="10dp"
-                android:textColor="@color/black"
-                android:textColorHint="#8F9098" />
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                android:fontFamily="@font/inter_bold"
                 android:text="Телефон"
                 android:textColor="@color/black" />
 

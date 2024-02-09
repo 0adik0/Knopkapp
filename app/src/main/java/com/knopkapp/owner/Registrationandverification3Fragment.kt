@@ -35,10 +35,10 @@ class Registrationandverification3Fragment : Fragment() {
             OwnerDates.status = "Owner"
             firestoreAdd()
             findNavController().navigate(R.id.ownerMainMenuFragment)
+            sessionManager.isRegistered = true
         }
         return binding.root
     }
-
 
     private fun firestoreAdd() {
      /*   val usersCollection = firebaseFirestore.collection("Users")
@@ -61,7 +61,6 @@ class Registrationandverification3Fragment : Fragment() {
             .document("${OwnerDates.email}")
             .set(userDate)
             .addOnSuccessListener {
-                Toast.makeText(context, "Сохранено", Toast.LENGTH_SHORT).show()
             }
             .addOnFailureListener {
                 Toast.makeText(context, "Error ${it.message}", Toast.LENGTH_SHORT).show()
@@ -78,7 +77,8 @@ class Registrationandverification3Fragment : Fragment() {
             .collection("${OwnerDates.name}").document("Restaurant Date")
             .set(buildingDate)
             .addOnSuccessListener {
-                Toast.makeText(context, "Сохранено", Toast.LENGTH_SHORT).show()
+
+
             }
             .addOnFailureListener {
                 Toast.makeText(context, "Error ${it.message}", Toast.LENGTH_SHORT).show()

@@ -1,4 +1,4 @@
-package com.knopkapp.activities
+package com.knopkapp.waiter
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle

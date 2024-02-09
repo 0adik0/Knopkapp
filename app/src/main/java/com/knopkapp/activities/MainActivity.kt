@@ -30,7 +30,7 @@ class MainActivity : AppCompatActivity() {
                 radioButtonKazakh.startAnimation(bounceAnimation)
 
             } else {
-                val intent = Intent(this, LoginActivity::class.java)
+                val intent = Intent(this, OnboardingActivity::class.java)
                 startActivity(intent)
             }
         }

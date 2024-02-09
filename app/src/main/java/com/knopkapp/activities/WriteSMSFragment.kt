@@ -23,6 +23,7 @@ import com.knopkapp.R
 import com.knopkapp.databinding.FragmentWriteSMSBinding
 import com.knopkapp.db.SessionManager
 import com.knopkapp.models.UniversalDate
+import com.knopkapp.waiter.WaiterTablesActivity
 import es.dmoral.toasty.Toasty
 import java.util.concurrent.TimeUnit
 
@@ -97,77 +98,75 @@ class WriteSMSFragment : Fragment() {
     }
 
     private fun firestoreAdd() {
+        if (sessionManager.restaurantName.toString() != "") {
+            sessionManager.isRegistered = true
+            val userDate = HashMap<String, Any>()
+            userDate["FIO"] = UniversalDate.fio.toString()
+            userDate["Phone"] = UniversalDate.phoneNumber.toString()
 
-        val userDate = HashMap<String, Any>()
-        userDate["FIO"] = UniversalDate.fio.toString()
-        userDate["Phone"] = UniversalDate.phoneNumber.toString()
+            directorDocument = firebaseFireStore
+                .collection("Users")
+                .document("Dates")
+                .collection(sessionManager.restaurantName.toString())
+                .document("User Date")
+                .collection(UniversalDate.status.toString())
+                .document("${UniversalDate.email}")
 
-        directorDocument = firebaseFireStore
-            .collection("Users")
-            .document("Dates")
-            .collection(UniversalDate.restaurant.toString())
-            .document("User Date")
-            .collection(UniversalDate.status.toString())
-            .document("${UniversalDate.email}")
+            if (UniversalDate.status == "") {
+                Toast.makeText(context, "status pust", Toast.LENGTH_SHORT).show()
+            } else if (UniversalDate.status == "Director") {
+                directorDocument.update(userDate)
+                    .addOnSuccessListener {
+                        Toasty.info(requireContext(), "Успешно добавлено", Toast.LENGTH_SHORT)
+                            .show()
 
-        if (UniversalDate.status == "") {
-            Toast.makeText(context, "status pust", Toast.LENGTH_SHORT).show()
-        }
-        else if (UniversalDate.status == "Director") {
-            directorDocument.update(userDate)
-                .addOnSuccessListener {
-                    Toasty.info(requireContext(), "Успешно добавлено", Toast.LENGTH_SHORT)
-                        .show()
-                }
-                .addOnFailureListener {
-                    Toast.makeText(
-                        context,
-                        "Error ${it.message}",
-                        Toast.LENGTH_SHORT
-                    ).show()
-                }
-            findNavController().navigate(R.id.directorMainScreenFragment)
-            sessionManager.status = UniversalDate.status
-            sessionManager.restaurantName = UniversalDate.restaurant.toString()
 
-        }
-        else if (UniversalDate.status == "Administrator") {
-            directorDocument.update(userDate)
-                .addOnSuccessListener {
-                    Toasty.info(requireContext(), "Успешно добавлено", Toast.LENGTH_SHORT)
-                        .show()
-                }
-                .addOnFailureListener {
-                    Toast.makeText(
-                        context,
-                        "Error ${it.message}",
-                        Toast.LENGTH_SHORT
-                    ).show()
-                }
-            findNavController().navigate(R.id.adminMainMenuFragment)
-            sessionManager.status = UniversalDate.status
-            sessionManager.restaurantName = UniversalDate.restaurant.toString()
-        }
-        else if (UniversalDate.status == "Waiter") {
-            directorDocument.update(userDate)
-                .addOnSuccessListener {
-                    Toasty.info(requireContext(), "Успешно добавлено", Toast.LENGTH_SHORT)
-                        .show()
+                    }
+                    .addOnFailureListener {
+                        Toast.makeText(
+                            context,
+                            "Error ${it.message}",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
+                findNavController().navigate(R.id.directorMainScreenFragment)
+                sessionManager.status = UniversalDate.status
 
-                }
-                .addOnFailureListener {
-                    Toast.makeText(
-                        context,
-                        "Error ${it.message}",
-                        Toast.LENGTH_SHORT
-                    ).show()
-                }
-            startActivity(Intent(requireContext(), WaiterTablesActivity::class.java))
-            sessionManager.status = UniversalDate.status
-            sessionManager.restaurantName = UniversalDate.restaurant.toString()
-        }
-        else {
+            } else if (UniversalDate.status == "Administrator") {
+                directorDocument.update(userDate)
+                    .addOnSuccessListener {
+                        Toasty.info(requireContext(), "Успешно добавлено", Toast.LENGTH_SHORT)
+                            .show()
+                    }
+                    .addOnFailureListener {
+                        Toast.makeText(
+                            context,
+                            "Error ${it.message}",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
+                findNavController().navigate(R.id.adminMainMenuFragment)
+                sessionManager.status = UniversalDate.status
+            } else if (UniversalDate.status == "Waiter") {
+                directorDocument.update(userDate)
+                    .addOnSuccessListener {
+                        Toasty.info(requireContext(), "Успешно добавлено", Toast.LENGTH_SHORT)
+                            .show()
+
+                    }
+                    .addOnFailureListener {
+                        Toast.makeText(
+                            context,
+                            "Error ${it.message}",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
+                startActivity(Intent(requireContext(), WaiterTablesActivity::class.java))
+                sessionManager.status = UniversalDate.status
+            }
+        } else {
             findNavController().navigate(R.id.registrationandverification2Fragment)
+
         }
 
     }
@@ -203,7 +202,6 @@ class WriteSMSFragment : Fragment() {
             .setCallbacks(callbacks)          // OnVerificationStateChangedCallbacks
             .build()
         PhoneAuthProvider.verifyPhoneNumber(options)
-        Toast.makeText(context, "sended $phoneNumber", Toast.LENGTH_SHORT).show()
     }
 
     private fun resentCode(phoneNimber: String) {
@@ -269,9 +267,10 @@ class WriteSMSFragment : Fragment() {
                     // Sign in success, update UI with the signed-in user's information
                     Log.d(TAG, "signInWithCredential:success")
 
-                    Toasty.success(requireContext(), "Успешно", Toast.LENGTH_SHORT).show()
                     val user = task.result?.user
+
                     firestoreAdd()
+
 
                 } else {
                     // Sign in failed, display a message and update the UI

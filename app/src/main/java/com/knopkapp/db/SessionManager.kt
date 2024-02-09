@@ -2,7 +2,7 @@ package com.knopkapp.db
 
 import android.content.Context
 import android.content.SharedPreferences
-
+import java.util.*
 
 class SessionManager(context: Context) {
     private val sharedPreferences: SharedPreferences
@@ -22,7 +22,7 @@ class SessionManager(context: Context) {
             sharedPreferences.edit().putString(KEY_RESTAURANT_NAME, restaurantName).apply()
         }
     var status: String?
-        get() = sharedPreferences.getString(KEY_STATUS, "") // Другие методы, если необходимо
+        get() = sharedPreferences.getString(KEY_STATUS, "")
         set(status) {
             sharedPreferences.edit().putString(KEY_STATUS, status).apply()
         }
@@ -32,5 +32,30 @@ class SessionManager(context: Context) {
         private const val KEY_IS_REGISTERED = "isRegistered"
         private const val KEY_RESTAURANT_NAME = "restaurantName"
         private const val KEY_STATUS = "status"
+        private const val LAST_VISIT_DATE_KEY = "last_visit_date"
+    }
+
+    fun isFirstTimeToday(): Boolean {
+        val lastVisitDate = sharedPreferences.getLong(LAST_VISIT_DATE_KEY, 0)
+
+        // Получаем текущую дату
+        val currentDate = Calendar.getInstance()
+        currentDate.set(Calendar.HOUR_OF_DAY, 0)
+        currentDate.set(Calendar.MINUTE, 0)
+        currentDate.set(Calendar.SECOND, 0)
+        currentDate.set(Calendar.MILLISECOND, 0)
+
+        // Проверяем, было ли активити открыто сегодня
+        val today = currentDate.timeInMillis
+        return if (lastVisitDate < today) {
+            // Если активити не открывалось сегодня, сохраняем текущую дату и возвращаем true
+            val editor: SharedPreferences.Editor = sharedPreferences.edit()
+            editor.putLong(LAST_VISIT_DATE_KEY, today)
+            editor.apply()
+            true
+        } else {
+            // Если активити уже открывалось сегодня, возвращаем false
+            false
+        }
     }
 }

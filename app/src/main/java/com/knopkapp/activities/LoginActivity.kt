@@ -2,6 +2,7 @@ package com.knopkapp.activities
 
 import android.content.Intent
 import android.os.Bundle
+import android.view.View
 import android.view.animation.AnimationUtils
 import android.widget.EditText
 import android.widget.Toast
@@ -11,6 +12,7 @@ import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
+import com.google.firebase.firestore.FirebaseFirestore
 import com.knopkapp.R
 import com.knopkapp.databinding.ActivityLoginBinding
 import com.knopkapp.db.SessionManager
@@ -23,6 +25,8 @@ class LoginActivity : AppCompatActivity() {
     private lateinit var passwordEditText: TextInputEditText
     private lateinit var passwordInputLayout: TextInputLayout
 
+    lateinit var firebaseFireStore: FirebaseFirestore
+
     lateinit var auth: FirebaseAuth
     private lateinit var sessionManager: SessionManager
     private lateinit var binding: ActivityLoginBinding
@@ -32,7 +36,7 @@ class LoginActivity : AppCompatActivity() {
         setContentView(binding.root)
         // Инициализация Firebase Authentication
         auth = FirebaseAuth.getInstance()
-
+        firebaseFireStore = FirebaseFirestore.getInstance()
         sessionManager = SessionManager(this)
         emailEditText = findViewById(R.id.editTextTextEmailAddress)
         passwordEditText = findViewById(R.id.editTextPassword)
@@ -40,11 +44,12 @@ class LoginActivity : AppCompatActivity() {
 
         binding.btnlogin.setOnClickListener {
             loginUser()
-
         }
     }
 
+
     private fun loginUser() {
+
         // Получение значений из EditText
         val email = emailEditText.text.toString()
         val password = passwordEditText.text.toString()
@@ -56,14 +61,14 @@ class LoginActivity : AppCompatActivity() {
 
         // Проверка наличия текста в полях email и password
         if (email.isNotEmpty() && password.isNotEmpty()) {
+            showBlackAndProgress()
             // Попытка входа с использованием email и password
             auth.signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this) { task ->
                     if (task.isSuccessful) {
                         // Вход успешен, пользователь существует
                         val user = auth.currentUser
-                        sessionManager.isRegistered = true
-                        // Выполните необходимые действия, например, обновление UI
+
                         updateUI(user)
                     } else {
                         // Если вход не удался, отобразите сообщение об ошибке
@@ -75,16 +80,55 @@ class LoginActivity : AppCompatActivity() {
                     }
                 }
         } else {
-           validateAndAnimate()
+            validateAndAnimate()
+
         }
     }
 
     private fun updateUI(user: FirebaseUser?) {
 
         if (user != null) {
-            startActivity(Intent(this,RegistrationActivity::class.java))
-            finish()
+            firebaseFireStore.collection("AllUsers")
+                .document(binding.editTextTextEmailAddress.text.toString())
+                .get()
+                .addOnSuccessListener { documentSnapshot ->
+                    if (documentSnapshot.exists()) {
+                        // Документ существует
+                        val restaurant = documentSnapshot.getString("Restaurant")
+                        if (restaurant != null) {
+                            sessionManager.restaurantName = restaurant
+/*
+                            Toast.makeText(this, "First $restaurant", Toast.LENGTH_SHORT).show()
+*/
+                            startActivity(Intent(this, RegistrationActivity::class.java))
+                            finish()
+                            hideBlackAndProgress()
+                        }
+                        else{
+                            startActivity(Intent(this, RegistrationActivity::class.java))
+                            finish()
+                            hideBlackAndProgress()
+                        }
+                    }
+                    else{
+                        startActivity(Intent(this, RegistrationActivity::class.java))
+                        finish()
+                    }
+                }
+                .addOnFailureListener {
+
+                }
         }
+    }
+
+    private fun hideBlackAndProgress() {
+        binding.darkLayer.visibility = View.GONE
+        binding.progressBar.visibility = View.GONE
+    }
+
+    private fun showBlackAndProgress() {
+        binding.darkLayer.visibility = View.VISIBLE
+        binding.progressBar.visibility = View.VISIBLE
     }
 
     private fun validateAndAnimate() {

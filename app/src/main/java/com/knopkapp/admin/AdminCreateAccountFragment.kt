@@ -67,6 +67,18 @@ class AdminCreateAccountFragment : Fragment() {
             .addOnFailureListener {
                 Toast.makeText(context, "Error ${it.message}", Toast.LENGTH_SHORT).show()
             }
+
+        val user = HashMap<String, Any>()
+        user["Restaurant"] = sessionManager.restaurantName.toString()
+        firebaseFireStore.collection("AllUsers").document("${binding.emailEditText.text}")
+            .set(user)
+            .addOnSuccessListener {
+
+            }
+            .addOnFailureListener {
+                Toast.makeText(context, "Error ${it.message}", Toast.LENGTH_SHORT).show()
+
+            }
     }
 
     private fun registerUser() {
@@ -110,7 +122,6 @@ class AdminCreateAccountFragment : Fragment() {
         // Пример: если пользователь успешно зарегистрирован, перейдите к главному экрану
         if (user != null) {
             firestoreAdd()
-            Toast.makeText(context, "Registered", Toast.LENGTH_SHORT).show()
 
             /*startActivity(Intent(this, MainActivity::class.java))
             finish()*/

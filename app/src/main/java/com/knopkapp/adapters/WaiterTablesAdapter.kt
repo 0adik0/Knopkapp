@@ -18,7 +18,6 @@ class WaiterTablesAdapter(val list: ArrayList<Tables>) : RecyclerView.Adapter<Wa
         }
     }
 
-
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Vh {
         return Vh(ItemTablesBinding.inflate(LayoutInflater.from(parent.context), parent, false))
     }

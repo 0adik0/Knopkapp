@@ -12,95 +12,113 @@
         android:layout_height="match_parent">
 
 
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-        <LinearLayout
+        <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="20dp"
-            android:orientation="vertical">
+            android:layout_height="match_parent">
 
-            <TextView
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="36dp"
-                android:fontFamily="@font/inter_bold"
-                android:text="Деление столов"
-                android:textColor="@color/black"
-                android:textSize="20dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.201"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                android:layout_marginHorizontal="20dp"
+                android:orientation="vertical">
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="12dp"
-                android:text="Настройте деление столов"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView11" />
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="36dp"
+                    android:fontFamily="@font/inter_bold"
+                    android:text="Деление столов"
+                    android:textColor="@color/black"
+                    android:textSize="20dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.201"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="30dp"
-                android:fontFamily="@font/inter_bold"
-                android:text="Столы"
-                android:textColor="@color/black" />
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:text="Настройте деление столов"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/textView11" />
 
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="30dp"
+                    android:fontFamily="@font/inter_bold"
+                    android:text="Столы"
+                    android:textColor="@color/black" />
 
-            <Spinner
-                android:id="@+id/tableCountSpinner"
-                android:layout_width="match_parent"
-                android:layout_height="46dp"
-                android:layout_marginTop="5dp"
-                android:background="@drawable/edittext_background_selector"
-                android:ems="10"
-                android:hint="Выберите стол"
-                android:inputType="text"
-                android:paddingHorizontal="20dp"
-                android:paddingVertical="10dp"
-                android:textColor="@color/black"
-                android:textColorHint="#8F9098" />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/inter_bold"
+                        android:text="От"
+                        android:textColor="@color/black"/>
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                android:fontFamily="@font/inter_bold"
-                android:text="Официанты"
-                android:textColor="@color/black" />
+                    <NumberPicker
+                        android:id="@+id/numberPickerMin"
+                        android:layout_width="wrap_content"
+                        android:layout_marginHorizontal="25dp"
+                        android:layout_height="60dp" />
 
-            <Spinner
-                android:id="@+id/waitersSpinner"
-                android:layout_width="match_parent"
-                android:layout_height="46dp"
-                android:layout_marginTop="5dp"
-                android:background="@drawable/edittext_background_selector"
-                android:ems="10"
-                android:paddingHorizontal="20dp"
-                android:paddingVertical="10dp"
-                android:textColor="@color/black"
-                android:textColorHint="#8F9098" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/inter_bold"
+                        android:text="До"
+                        android:textColor="@color/black"/>
 
-            <Button
-                android:id="@+id/regnext2"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="24dp"
-                android:background="@drawable/style_btn"
-                android:text="Продолжить"
-                android:textAllCaps="false"
-                android:textColor="#FFFFFF"
-                android:textStyle="bold" />
+                    <NumberPicker
+                        android:id="@+id/numberPickerMax"
+                        android:layout_marginStart="25dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="60dp" />
 
-        </LinearLayout>
-    </ScrollView>
+                </LinearLayout>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:fontFamily="@font/inter_bold"
+                    android:text="Официанты"
+                    android:textColor="@color/black" />
+
+                <Spinner
+                    android:id="@+id/waitersSpinner"
+                    android:layout_width="match_parent"
+                    android:layout_height="46dp"
+                    android:layout_marginTop="5dp"
+                    android:background="@drawable/edittext_background_selector"
+                    android:ems="10"
+                    android:paddingHorizontal="20dp"
+                    android:paddingVertical="10dp"
+                    android:textColor="@color/black"
+                    android:textColorHint="#8F9098" />
+
+                <Button
+                    android:id="@+id/regnext2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="24dp"
+                    android:background="@drawable/style_btn"
+                    android:text="Продолжить"
+                    android:textAllCaps="false"
+                    android:textColor="#FFFFFF"
+                    android:textStyle="bold" />
+
+            </LinearLayout>
+        </ScrollView>
 
         <View
             android:id="@+id/darkLayer"

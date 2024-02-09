@@ -23,29 +23,38 @@ class MoodActivity : ComponentActivity() {
         setContentView(binding.root)
 
         sessionManager = SessionManager(this)
-        val moods = listOf(
-            "\uD83D\uDE34 Хочу спать",
-            "\uD83D\uDE10 Нормально",
-            "\uD83D\uDE0A Хорошо",
-            "\uD83D\uDE04 Отлично",
-            "\uD83D\uDE0E Всё шикарно"
-        )
 
-        moodAdapter = MoodAdapter(moods) { mood ->
+        if(sessionManager.isFirstTimeToday()){
+            val moods = listOf(
+                "\uD83D\uDE34 Хочу спать",
+                "\uD83D\uDE10 Нормально",
+                "\uD83D\uDE0A Хорошо",
+                "\uD83D\uDE04 Отлично",
+                "\uD83D\uDE0E Всё шикарно"
+            )
 
-        }
+            moodAdapter = MoodAdapter(moods) { mood ->
 
-        recyclerView = findViewById(R.id.moodRecyclerView)
-        // Используйте GridLayoutManager с 3 столбцами
-        recyclerView.layoutManager = GridLayoutManager(this, 3)
-        recyclerView.adapter = moodAdapter
+            }
 
-        binding.buttonSaveMood.setOnClickListener {
+            recyclerView = findViewById(R.id.moodRecyclerView)
+            // Используйте GridLayoutManager с 3 столбцами
+            recyclerView.layoutManager = GridLayoutManager(this, 3)
+            recyclerView.adapter = moodAdapter
 
+            binding.buttonSaveMood.setOnClickListener {
+
+                val intent = Intent(this, RegistrationActivity::class.java)
+                startActivity(intent)
+
+            }
+
+        }else{
             val intent = Intent(this, RegistrationActivity::class.java)
             startActivity(intent)
-
         }
+
+
     }
 
 

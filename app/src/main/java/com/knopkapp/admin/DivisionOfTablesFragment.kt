@@ -21,13 +21,22 @@ import es.dmoral.toasty.Toasty
 class DivisionOfTablesFragment : Fragment() {
 
     private lateinit var binding: FragmentDivisionOfTablesBinding
+
     lateinit var firebaseFireStore: FirebaseFirestore
 
     lateinit var sessionManager: SessionManager
 
     lateinit var waiterName: String
+
     lateinit var waiterLogin: String
-    private var tablesAmount: Int = 0
+
+    private lateinit var tablesAmount: ArrayList<Int>
+
+    private var tableMax: Int = 0
+
+    var min = 0
+    var max = 0
+
     private var TAG = "DivisionFragment"
 
     override fun onCreateView(
@@ -38,20 +47,24 @@ class DivisionOfTablesFragment : Fragment() {
         firebaseFireStore = FirebaseFirestore.getInstance()
         sessionManager = SessionManager(requireContext())
         showBlackAndProgress()
+
         getCountOfTable()
 
         typeOfWaiter()
-
         binding.regnext2.setOnClickListener {
 
-            if (tablesAmount == 0 || waiterName.isNullOrEmpty() || waiterLogin.isNullOrEmpty()
+
+            if (waiterName.isNullOrEmpty() || waiterLogin.isNullOrEmpty()
             ) {
                 Toasty.info(requireContext(), "Заполните ячейки", Toast.LENGTH_SHORT).show()
             } else if (waiterName == "Выберите официанта") {
                 Toasty.info(requireContext(), "Выберите официанта", Toast.LENGTH_SHORT).show()
             } else {
+                for (i in min..max) {
+                    tablesAmount.add(i)
+                }
                 val bundle = Bundle().apply {
-                    putString("table", tablesAmount.toString())
+                    putIntegerArrayList("table", tablesAmount)
                     putString("login", waiterLogin)
                     putString("name", waiterName)
                 }
@@ -63,6 +76,40 @@ class DivisionOfTablesFragment : Fragment() {
         return binding.root
     }
 
+    private fun rangeOfNumbers() {
+        tablesAmount = ArrayList()
+
+        // Настройка NumberPicker для минимального значения
+        binding.numberPickerMin.minValue = 1
+        binding.numberPickerMin.maxValue = tableMax
+        binding.numberPickerMin.wrapSelectorWheel = false // Отключает зацикливание значений
+
+        // Настройка NumberPicker для максимального значения
+        binding.numberPickerMax.minValue = 1
+        binding.numberPickerMax.maxValue = tableMax
+        binding.numberPickerMax.wrapSelectorWheel = false // Отключает зацикливание значений
+
+        // Обработка изменений в NumberPicker
+        binding.numberPickerMin.setOnValueChangedListener { picker, _, _ ->
+            // Обработка изменения минимального значения
+            val minValue = picker.value
+            // Делайте что-то с minValue
+            min = minValue
+        }
+
+        binding.numberPickerMax.setOnValueChangedListener { picker, _, _ ->
+            // Обработка изменения максимального значения
+            val maxValue = picker.value
+            // Делайте что-то с maxValue
+            max = maxValue
+
+        }
+
+
+
+
+    }
+
     private fun getCountOfTable() {
         firebaseFireStore.collection("Users").document("Dates")
             .collection(sessionManager.restaurantName.toString()).document("Restaurant Date")
@@ -72,37 +119,8 @@ class DivisionOfTablesFragment : Fragment() {
                     val tables = document.get("Tables")
                     if (tables != null) {
                         val tableCount = tables.toString()
-                        val tableNumbers = (1..tableCount.toInt()).toList()
-
-                        // Создаем адаптер для спиннера
-                        val adapter = ArrayAdapter(
-                            requireContext(),
-                            android.R.layout.simple_spinner_item,
-                            tableNumbers
-                        )
-                        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-
-                        // Присваиваем адаптер к спиннеру
-                        binding.tableCountSpinner.adapter = adapter
-                        binding.tableCountSpinner.onItemSelectedListener =
-                            object : AdapterView.OnItemSelectedListener {
-                                override fun onItemSelected(
-                                    parent: AdapterView<*>?,
-                                    view: View?,
-                                    position: Int,
-                                    id: Long
-                                ) {
-                                    // Получаем выбранный элемент
-                                    val selectedTables = parent?.getItemAtPosition(position) as Int
-                                    // Обновляем глобальную переменную
-                                    tablesAmount = selectedTables
-                                }
-
-                                override fun onNothingSelected(parent: AdapterView<*>?) {
-                                    // Действие при отсутствии выбранного элемента (можете оставить пустым или добавить нужное действие)
-                                }
-                            }
-
+                        tableMax = tableCount.toInt()
+                        rangeOfNumbers()
 
                         Log.d(TAG, "Tables: $tables")
                     } else {
@@ -168,6 +186,7 @@ class DivisionOfTablesFragment : Fragment() {
             .addOnSuccessListener { querySnapshot ->
                 fioList.add(0, "Выберите официанта")
                 hideBlackAndProgress()
+
                 for (document in querySnapshot.documents) {
                     // Получите значения "FIO" и "Login" из документа
                     val fio = document.getString("FIO")
@@ -195,6 +214,7 @@ class DivisionOfTablesFragment : Fragment() {
 
                 // Примените адаптер к спиннеру
                 binding.waitersSpinner.adapter = adapter
+
 
                 // Установите слушатель выбора для спиннера
                 binding.waitersSpinner.onItemSelectedListener =
@@ -225,6 +245,7 @@ class DivisionOfTablesFragment : Fragment() {
                 Log.e("Firestore", "Error getting documents: $exception")
             }
     }
+
 
     private fun hideBlackAndProgress() {
         binding.darkLayer.visibility = View.GONE

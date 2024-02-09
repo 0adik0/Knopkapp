@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
@@ -41,18 +40,14 @@ class RegistrationAndVarification1Fragment : Fragment() {
 
             OwnerDates.fio = binding.editTextFIO.text.toString()
             OwnerDates.phoneNumber = phone.toLong()
-            OwnerDates.name = binding.nameOfRestaurant.text.toString()
 
             UniversalDate.fio = binding.editTextFIO.text.toString()
             UniversalDate.phoneNumber = phone.toLong()
-            UniversalDate.restaurant = binding.nameOfRestaurant.text.toString()
+            if (sessionManager.restaurantName.toString() != ""){
+                firestreAdd()
+            }
 
-            firestreAdd()
-
-            findNavController().navigate(
-                R.id.writeSMSFragment,
-                bundleOf("phoneNumber" to phoneNumber)
-            )
+            findNavController().navigate(R.id.writeSMSFragment, bundleOf("phoneNumber" to phoneNumber))
 
         }
         return binding.root
@@ -63,7 +58,7 @@ class RegistrationAndVarification1Fragment : Fragment() {
         directorDocument = firebaseFireStore
             .collection("Users")
             .document("Dates")
-            .collection(UniversalDate.restaurant.toString())
+            .collection(sessionManager.restaurantName.toString())
             .document("User Date")
             .collection("Director")
             .document("${UniversalDate.email}")
@@ -75,7 +70,6 @@ class RegistrationAndVarification1Fragment : Fragment() {
                     val status = documentSnapshot.getString("Status")
                     if(status != null){
                         UniversalDate.status = status
-                        Toast.makeText(context, "First $status", Toast.LENGTH_SHORT).show()
                     }
                     
                 }
@@ -87,7 +81,7 @@ class RegistrationAndVarification1Fragment : Fragment() {
         directorDocument = firebaseFireStore
             .collection("Users")
             .document("Dates")
-            .collection(UniversalDate.restaurant.toString())
+            .collection(sessionManager.restaurantName.toString())
             .document("User Date")
             .collection("Administrator")
             .document("${UniversalDate.email}")
@@ -99,7 +93,6 @@ class RegistrationAndVarification1Fragment : Fragment() {
                     val status = documentSnapshot.getString("Status")
                     if(status != null){
                         UniversalDate.status = status
-                        Toast.makeText(context, "Second $status", Toast.LENGTH_SHORT).show()
 
                     }
 
@@ -114,7 +107,7 @@ class RegistrationAndVarification1Fragment : Fragment() {
         directorDocument = firebaseFireStore
             .collection("Users")
             .document("Dates")
-            .collection(UniversalDate.restaurant.toString())
+            .collection(sessionManager.restaurantName.toString())
             .document("User Date")
             .collection("Waiter")
             .document("${UniversalDate.email}")
@@ -127,7 +120,6 @@ class RegistrationAndVarification1Fragment : Fragment() {
 
                     if(status != null){
                         UniversalDate.status = status
-                        Toast.makeText(context, "Third $status", Toast.LENGTH_SHORT).show()
                     }
 
                 }

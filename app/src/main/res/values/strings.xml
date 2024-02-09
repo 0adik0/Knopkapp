@@ -6,4 +6,5 @@
     <string name="create_acc_for_admin">Создать аккаунт для администратора</string>
     <string name="create_acc_for_waiter">Создать аккаунт для официанта</string>
     <string name="mainMenuDirector">Главное меня\nДиректора</string>
+    <string name="notification">Уведомления</string>
 </resources>

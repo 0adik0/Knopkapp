@@ -57,7 +57,7 @@ class StartWorkFragment : Fragment() {
 
     private fun firestoreAdd() {
 
-        val table = arguments?.getString("table")
+        val table = arguments?.getIntegerArrayList("table")
         val login = arguments?.getString("login")
         val name = arguments?.getString("name")
 
