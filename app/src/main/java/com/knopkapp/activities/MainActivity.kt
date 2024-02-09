@@ -32,6 +32,7 @@ class MainActivity : AppCompatActivity() {
             } else {
                 val intent = Intent(this, OnboardingActivity::class.java)
                 startActivity(intent)
+                finish()
             }
         }
 

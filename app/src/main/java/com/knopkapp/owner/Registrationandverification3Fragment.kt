@@ -1,5 +1,6 @@
 package com.knopkapp.owner
 
+import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -12,6 +13,7 @@ import com.knopkapp.R
 import com.knopkapp.databinding.FragmentRegistrationandverification3Binding
 import com.knopkapp.db.SessionManager
 import com.knopkapp.models.OwnerDates
+import es.dmoral.toasty.Toasty
 
 class Registrationandverification3Fragment : Fragment() {
 
@@ -34,8 +36,8 @@ class Registrationandverification3Fragment : Fragment() {
             OwnerDates.amountTables = binding.amountTableEditText.text.toString().toInt()
             OwnerDates.status = "Owner"
             firestoreAdd()
-            findNavController().navigate(R.id.ownerMainMenuFragment)
-            sessionManager.isRegistered = true
+
+
         }
         return binding.root
     }
@@ -45,6 +47,9 @@ class Registrationandverification3Fragment : Fragment() {
 
 // Создаем новый документ с автоматически сгенерированным идентификатором
         val datesDocument = usersCollection.add().await()*/
+
+        showBlackAndProgress()
+
         val userDate = HashMap<String, Any>()
         userDate["FIO"] = OwnerDates.fio.toString()
         userDate["Login"] = OwnerDates.email.toString()
@@ -77,12 +82,28 @@ class Registrationandverification3Fragment : Fragment() {
             .collection("${OwnerDates.name}").document("Restaurant Date")
             .set(buildingDate)
             .addOnSuccessListener {
-
-
+                Toasty.info(requireContext(),"Успешно добавлена",Toast.LENGTH_SHORT).show()
+                hideBlackAndProgress()
+                findNavController().navigate(R.id.ownerMainMenuFragment)
+                sessionManager.isRegistered = true
             }
             .addOnFailureListener {
                 Toast.makeText(context, "Error ${it.message}", Toast.LENGTH_SHORT).show()
             }
+    }
+
+    private fun hideBlackAndProgress() {
+        binding.darkLayer.visibility = View.GONE
+        binding.progressBar.visibility = View.GONE
+        binding.toolbar.setBackgroundColor(Color.parseColor("#61B940"))
+        binding.toolbar.setBackgroundColor(Color.WHITE)
+    }
+
+    private fun showBlackAndProgress() {
+        binding.darkLayer.visibility = View.VISIBLE
+        binding.progressBar.visibility = View.VISIBLE
+        binding.toolbar.setBackgroundColor(Color.parseColor("#325F20"))
+        binding.registarationText.setTextColor(Color.parseColor("#FF7E7E7E"))
     }
 
  /*   private fun updateProgressBar(progress: Int) {

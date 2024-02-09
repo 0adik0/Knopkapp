@@ -8,20 +8,27 @@
     tools:context=".owner.Registrationandverification3Fragment">
 
     <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/green">
 
         <TextView
+            android:id="@+id/registarationText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="center"
             android:layout_gravity="center"
-            android:textColor="@color/white"
+            android:textColor="#FFFFFF"
             android:textSize="18sp"
             android:text="Регистрация"/>
 
     </androidx.appcompat.widget.Toolbar>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
 
     <ScrollView
         android:layout_width="match_parent"
@@ -93,4 +100,23 @@
 
         </LinearLayout>
     </ScrollView>
+
+        <View
+            android:id="@+id/darkLayer"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#80000000"
+            android:visibility="gone" />
+
+        <ProgressBar
+            android:id="@+id/progressBar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:visibility="gone" />
+
+
+    </FrameLayout>
+
+
 </LinearLayout>

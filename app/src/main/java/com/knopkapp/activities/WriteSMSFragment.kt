@@ -23,6 +23,7 @@ import com.knopkapp.R
 import com.knopkapp.databinding.FragmentWriteSMSBinding
 import com.knopkapp.db.SessionManager
 import com.knopkapp.models.UniversalDate
+import com.knopkapp.waiter.WaiterMainScreenActivity
 import com.knopkapp.waiter.WaiterTablesActivity
 import es.dmoral.toasty.Toasty
 import java.util.concurrent.TimeUnit
@@ -161,7 +162,7 @@ class WriteSMSFragment : Fragment() {
                             Toast.LENGTH_SHORT
                         ).show()
                     }
-                startActivity(Intent(requireContext(), WaiterTablesActivity::class.java))
+                startActivity(Intent(requireContext(), WaiterMainScreenActivity::class.java))
                 sessionManager.status = UniversalDate.status
             }
         } else {

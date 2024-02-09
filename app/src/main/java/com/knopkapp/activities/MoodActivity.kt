@@ -46,12 +46,14 @@ class MoodActivity : ComponentActivity() {
 
                 val intent = Intent(this, RegistrationActivity::class.java)
                 startActivity(intent)
+                finish()
 
             }
 
         }else{
             val intent = Intent(this, RegistrationActivity::class.java)
             startActivity(intent)
+            finish()
         }
 
 

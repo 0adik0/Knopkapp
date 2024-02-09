@@ -27,11 +27,18 @@ class SessionManager(context: Context) {
             sharedPreferences.edit().putString(KEY_STATUS, status).apply()
         }
 
+    var fio: String?
+        get() = sharedPreferences.getString(KEY_FIO, "")
+        set(status) {
+            sharedPreferences.edit().putString(KEY_FIO, status).apply()
+        }
+
     companion object {
         private const val PREFS_NAME = "MyPrefs"
         private const val KEY_IS_REGISTERED = "isRegistered"
         private const val KEY_RESTAURANT_NAME = "restaurantName"
         private const val KEY_STATUS = "status"
+        private const val KEY_FIO = "fio"
         private const val LAST_VISIT_DATE_KEY = "last_visit_date"
     }
 

@@ -6,4 +6,5 @@ object UniversalDate {
     var email: String? = null
     var phoneNumber: Long? = null
     var status: String? = null
+
 }

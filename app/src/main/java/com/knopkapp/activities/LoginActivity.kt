@@ -12,12 +12,14 @@ import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
+import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.FirebaseFirestore
 import com.knopkapp.R
 import com.knopkapp.databinding.ActivityLoginBinding
 import com.knopkapp.db.SessionManager
 import com.knopkapp.models.UniversalDate
 import com.knopkapp.models.OwnerDates
+import com.knopkapp.waiter.WaiterMainScreenActivity
 
 class LoginActivity : AppCompatActivity() {
 
@@ -26,18 +28,21 @@ class LoginActivity : AppCompatActivity() {
     private lateinit var passwordInputLayout: TextInputLayout
 
     lateinit var firebaseFireStore: FirebaseFirestore
-
+    private lateinit var directorDocument: DocumentReference
     lateinit var auth: FirebaseAuth
+
     private lateinit var sessionManager: SessionManager
+
     private lateinit var binding: ActivityLoginBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        // Инициализация Firebase Authentication
+
         auth = FirebaseAuth.getInstance()
         firebaseFireStore = FirebaseFirestore.getInstance()
         sessionManager = SessionManager(this)
+
         emailEditText = findViewById(R.id.editTextTextEmailAddress)
         passwordEditText = findViewById(R.id.editTextPassword)
         passwordInputLayout = findViewById(R.id.textInputPassword)
@@ -45,8 +50,8 @@ class LoginActivity : AppCompatActivity() {
         binding.btnlogin.setOnClickListener {
             loginUser()
         }
-    }
 
+    }
 
     private fun loginUser() {
 
@@ -97,22 +102,17 @@ class LoginActivity : AppCompatActivity() {
                         val restaurant = documentSnapshot.getString("Restaurant")
                         if (restaurant != null) {
                             sessionManager.restaurantName = restaurant
-/*
-                            Toast.makeText(this, "First $restaurant", Toast.LENGTH_SHORT).show()
-*/
-                            startActivity(Intent(this, RegistrationActivity::class.java))
-                            finish()
-                            hideBlackAndProgress()
+                            /*
+                                                        Toast.makeText(this, "First $restaurant", Toast.LENGTH_SHORT).show()
+                            */
+                            firestreAdd()
+
                         }
-                        else{
-                            startActivity(Intent(this, RegistrationActivity::class.java))
-                            finish()
-                            hideBlackAndProgress()
-                        }
-                    }
-                    else{
+                    } else {
                         startActivity(Intent(this, RegistrationActivity::class.java))
                         finish()
+                        hideBlackAndProgress()
+
                     }
                 }
                 .addOnFailureListener {
@@ -120,6 +120,69 @@ class LoginActivity : AppCompatActivity() {
                 }
         }
     }
+
+    private fun firestreAdd() {
+        val array = arrayOf("Director", "Administrator", "Waiter")
+
+        for (s in array) {
+            directorDocument = firebaseFireStore
+                .collection("Users")
+                .document("Dates")
+                .collection(sessionManager.restaurantName.toString())
+                .document("User Date")
+                .collection(s)
+                .document("${UniversalDate.email}")
+
+            directorDocument.get()
+                .addOnSuccessListener { documentSnapshot ->
+                    if (documentSnapshot.exists()) {
+                        sessionManager.status = s
+                        UniversalDate.status = s
+                        firestoreGet()
+                    }
+                }
+                .addOnFailureListener { exception ->
+                    // Произошла ошибка при получении документа
+                }
+        }
+
+    }
+
+    private fun firestoreGet() {
+
+        firebaseFireStore.collection("Users").document("Dates")
+            .collection("${sessionManager.restaurantName}").document("User Date")
+            .collection("${UniversalDate.status}")
+            .document("${UniversalDate.email}")
+            .get()
+            .addOnSuccessListener { documentSnapshot ->
+                if (documentSnapshot.exists()) {
+                    // Документ существует
+                    val fio = documentSnapshot.getString("FIO")
+                    if (fio!=null){
+                        Toast.makeText(this, "fio$fio", Toast.LENGTH_SHORT).show()
+
+                        hideBlackAndProgress()
+
+                        sessionManager.fio = fio
+                        startActivity(Intent(this, RegistrationActivity::class.java))
+                        finish()
+                    }
+                    else{
+                        startActivity(Intent(this, RegistrationActivity::class.java))
+                        finish()
+                    }
+
+                } else {
+                    startActivity(Intent(this, RegistrationActivity::class.java))
+                    finish()
+                }
+            }
+            .addOnFailureListener {
+
+            }
+    }
+
 
     private fun hideBlackAndProgress() {
         binding.darkLayer.visibility = View.GONE

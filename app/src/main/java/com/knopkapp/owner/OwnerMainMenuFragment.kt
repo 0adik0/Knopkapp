@@ -41,6 +41,7 @@ class OwnerMainMenuFragment : Fragment() {
                     sessionManager.isRegistered = false
                     sessionManager.restaurantName = ""
                     sessionManager.status = ""
+                    sessionManager.fio = ""
                     startActivity(Intent(requireContext(),LoginActivity::class.java))
                 }
                 .setNegativeButton("no") { dialog, which ->

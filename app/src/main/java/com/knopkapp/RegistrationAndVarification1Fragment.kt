@@ -43,17 +43,18 @@ class RegistrationAndVarification1Fragment : Fragment() {
 
             UniversalDate.fio = binding.editTextFIO.text.toString()
             UniversalDate.phoneNumber = phone.toLong()
-            if (sessionManager.restaurantName.toString() != ""){
+            /*if (sessionManager.restaurantName.toString() != ""){
                 firestreAdd()
-            }
-
+            }*/
+            sessionManager.fio = binding.editTextFIO.text.toString()
             findNavController().navigate(R.id.writeSMSFragment, bundleOf("phoneNumber" to phoneNumber))
 
         }
+
         return binding.root
     }
 
-    private fun firestreAdd() {
+    /*private fun firestreAdd() {
 
         directorDocument = firebaseFireStore
             .collection("Users")
@@ -132,7 +133,7 @@ class RegistrationAndVarification1Fragment : Fragment() {
 
 
 
-    }
+    }*/
 
     /* private fun replaceFragment(fragment: Fragment) {
          requireActivity().supportFragmentManager.beginTransaction()
