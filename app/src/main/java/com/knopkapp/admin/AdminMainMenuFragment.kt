@@ -1,17 +1,15 @@
 package com.knopkapp.admin
 
-import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.appcompat.app.AlertDialog
 import androidx.navigation.fragment.findNavController
 import com.knopkapp.R
-import com.knopkapp.activities.LoginActivity
 import com.knopkapp.databinding.FragmentAdminMainMenuBinding
 import com.knopkapp.db.SessionManager
+import com.knopkapp.dialog.LogoutDialogFragment
 
 
 class AdminMainMenuFragment : Fragment() {
@@ -20,9 +18,8 @@ class AdminMainMenuFragment : Fragment() {
     lateinit var sessionManager: SessionManager
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
+    ): View {
         binding = FragmentAdminMainMenuBinding.inflate(layoutInflater)
         sessionManager = SessionManager(requireContext())
 
@@ -34,31 +31,23 @@ class AdminMainMenuFragment : Fragment() {
             tableDivisionButton.setOnClickListener {
                 findNavController().navigate(R.id.divisionOfTablesFragment)
             }
+
+            listOfWaiterButton.setOnClickListener {
+                findNavController().navigate(R.id.listOfWaitersFragment)
+            }
+
+            logoutButton.setOnClickListener {
+                fragmentDialog()
+            }
         }
-
-        binding.logoutButton.setOnClickListener {
-
-            AlertDialog.Builder(requireContext())
-                .setMessage("Вы хотите выйти?")
-                .setPositiveButton("yes") { dialog, which ->
-                    sessionManager.isRegistered = false
-                    sessionManager.restaurantName = ""
-                    sessionManager.status = ""
-                    sessionManager.fio = ""
-
-                    startActivity(Intent(requireContext(), LoginActivity::class.java))
-                }
-                .setNegativeButton("no") { dialog, which ->
-                    dialog.dismiss();
-                }
-                .show();
-
-        }
-
 
         return binding.root
     }
 
+    private fun fragmentDialog() {
+        val dialogFragment = LogoutDialogFragment()
+        dialogFragment.show(childFragmentManager, "MyDialogFragment")
+    }
 
 
 }

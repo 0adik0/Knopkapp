@@ -160,8 +160,6 @@ class LoginActivity : AppCompatActivity() {
                     // Документ существует
                     val fio = documentSnapshot.getString("FIO")
                     if (fio!=null){
-                        Toast.makeText(this, "fio$fio", Toast.LENGTH_SHORT).show()
-
                         hideBlackAndProgress()
 
                         sessionManager.fio = fio

@@ -5,6 +5,7 @@ import android.content.SharedPreferences
 import java.util.*
 
 class SessionManager(context: Context) {
+
     private val sharedPreferences: SharedPreferences
 
     init {
@@ -65,4 +66,5 @@ class SessionManager(context: Context) {
             false
         }
     }
+
 }

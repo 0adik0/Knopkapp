@@ -122,7 +122,15 @@
         <action
             android:id="@+id/action_adminMainMenuFragment_to_adminCreateAccountFragment"
             app:destination="@id/adminCreateAccountFragment" />
+        <action
+            android:id="@+id/action_adminMainMenuFragment_to_listOfWaitersFragment"
+            app:destination="@id/listOfWaitersFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/listOfWaitersFragment"
+        android:name="com.knopkapp.admin.ListOfWaitersFragment"
+        android:label="fragment_list_of_waiters"
+        tools:layout="@layout/fragment_list_of_waiters" />
 
 
 </navigation>

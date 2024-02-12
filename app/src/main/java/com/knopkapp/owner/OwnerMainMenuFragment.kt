@@ -14,6 +14,7 @@ import com.knopkapp.R
 import com.knopkapp.activities.LoginActivity
 import com.knopkapp.databinding.FragmentOwnerMainMenuBinding
 import com.knopkapp.db.SessionManager
+import com.knopkapp.dialog.LogoutDialogFragment
 
 class OwnerMainMenuFragment : Fragment() {
 
@@ -34,25 +35,15 @@ class OwnerMainMenuFragment : Fragment() {
         }
 
         binding.logoutButton.setOnClickListener {
-
-            AlertDialog.Builder(requireContext())
-                .setMessage("Вы хотите выйти?")
-                .setPositiveButton("yes") { dialog, which ->
-                    sessionManager.isRegistered = false
-                    sessionManager.restaurantName = ""
-                    sessionManager.status = ""
-                    sessionManager.fio = ""
-                    startActivity(Intent(requireContext(),LoginActivity::class.java))
-                }
-                .setNegativeButton("no") { dialog, which ->
-                    dialog.dismiss();
-                }
-                .show();
-
+            fragmentDialog()
         }
 
-
         return binding.root
+    }
+
+    private fun fragmentDialog() {
+        val dialogFragment = LogoutDialogFragment()
+        dialogFragment.show(childFragmentManager, "MyDialogFragment")
     }
 
 

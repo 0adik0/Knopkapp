@@ -71,7 +71,12 @@ class StartWorkFragment : Fragment() {
             .set(userDate)
             .addOnSuccessListener {
                 Toasty.info(requireContext(), "Успешно добавлено", Toast.LENGTH_SHORT).show()
-                findNavController().navigate(R.id.adminMainMenuFragment)
+                val bundle = Bundle().apply {
+                    putIntegerArrayList("table", table)
+                    putString("login", login)
+                    putString("name", name)
+                }
+                findNavController().navigate(R.id.listOfWaitersFragment, bundle)
             }
             .addOnFailureListener {
                 Toast.makeText(context, "Error ${it.message}", Toast.LENGTH_SHORT).show()

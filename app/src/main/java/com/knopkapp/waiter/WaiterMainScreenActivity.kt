@@ -8,6 +8,7 @@ import com.knopkapp.R
 import com.knopkapp.activities.LoginActivity
 import com.knopkapp.databinding.ActivityWaiterMainScreenBinding
 import com.knopkapp.db.SessionManager
+import com.knopkapp.dialog.LogoutDialogFragment
 
 class WaiterMainScreenActivity : AppCompatActivity() {
 
@@ -27,19 +28,12 @@ class WaiterMainScreenActivity : AppCompatActivity() {
 
 
         binding.logoutButton.setOnClickListener {
-
-            AlertDialog.Builder(this)
-                .setMessage("Вы хотите выйти?")
-                .setPositiveButton("yes") { dialog, which ->
-                    sessionManager.isRegistered = false
-                    sessionManager.restaurantName = ""
-                    sessionManager.status = ""
-                    startActivity(Intent(this, LoginActivity::class.java))
-                }
-                .setNegativeButton("no") { dialog, which ->
-                    dialog.dismiss();
-                }
-                .show();
+            fragmentDialog()
         }
+    }
+
+    private fun fragmentDialog() {
+        val dialogFragment = LogoutDialogFragment()
+        dialogFragment.show(supportFragmentManager, "MyDialogFragment")
     }
 }

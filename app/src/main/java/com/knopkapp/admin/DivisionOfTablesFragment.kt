@@ -14,8 +14,8 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.knopkapp.R
 import com.knopkapp.databinding.FragmentDivisionOfTablesBinding
 import com.knopkapp.db.SessionManager
-import com.knopkapp.models.OwnerDates
-import com.knopkapp.models.WaiterDates
+import com.knopkapp.models.Waiter
+
 import es.dmoral.toasty.Toasty
 
 class DivisionOfTablesFragment : Fragment() {
@@ -35,6 +35,7 @@ class DivisionOfTablesFragment : Fragment() {
     private var tableMax: Int = 0
 
     var min = 0
+
     var max = 0
 
     private var TAG = "DivisionFragment"
@@ -46,13 +47,13 @@ class DivisionOfTablesFragment : Fragment() {
         binding = FragmentDivisionOfTablesBinding.inflate(layoutInflater)
         firebaseFireStore = FirebaseFirestore.getInstance()
         sessionManager = SessionManager(requireContext())
+
         showBlackAndProgress()
 
         getCountOfTable()
 
         typeOfWaiter()
         binding.regnext2.setOnClickListener {
-
 
             if (waiterName.isNullOrEmpty() || waiterLogin.isNullOrEmpty()
             ) {
